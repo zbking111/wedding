@@ -4,24 +4,59 @@
   "weddingDate": "2026-12-27",
   "weddingTime": "11:00",
   "lunarText": "Tức 19/11 năm Bính Ngọ",
-  "heroPhoto": "",
-  "music": "",
-  "youtubeId": "",
+  "heroPhoto": "/media/images/cac-concept-chup-anh-cuoi-phim-truong-683x1024.jpg",
   "videoQuote": "Tình yêu không làm cho thế giới quay tròn, tình yêu làm cho chuyến đi trở nên đáng giá.",
   "albumQuote": "Được ai đó yêu sâu sắc sẽ mang lại cho bạn sức mạnh, trong khi yêu ai đó sâu sắc sẽ cho bạn dũng khí.",
   "letter": "Cảm ơn tất cả những người bạn thân yêu đã luôn ở bên cạnh, chia sẻ cùng chúng mình những vui buồn trên chặng đường đã qua.\n\nNgày 27/12 tới đây, chúng mình chính thức về chung một nhà. Dù bận rộn đến đâu, mong bạn dành chút thời gian đến chung vui, để ngày trọng đại của chúng mình thêm trọn vẹn.",
-  "photos": [],
   "events": [
-    { "title": "Tiệc cưới nhà gái", "date": "2026-12-26", "time": "16:00", "place": "Tư gia nhà gái", "addr": "[Địa chỉ nhà gái]", "map": "" },
-    { "title": "Lễ vu quy", "date": "2026-12-27", "time": "08:00", "place": "Tư gia nhà gái", "addr": "[Địa chỉ nhà gái]", "map": "" },
-    { "title": "Lễ thành hôn", "date": "2026-12-27", "time": "10:00", "place": "Tư gia nhà trai", "addr": "[Địa chỉ nhà trai]", "map": "" },
-    { "title": "Tiệc cưới nhà trai", "date": "2026-12-27", "time": "11:00", "place": "[Nhà hàng / tư gia nhà trai]", "addr": "[Địa chỉ]", "map": "" }
+    {
+      "title": "Tiệc cưới nhà gái",
+      "date": "2026-12-26",
+      "time": "16:00",
+      "place": "Tư gia nhà gái",
+      "addr": "[Địa chỉ nhà gái]"
+    },
+    {
+      "title": "Lễ vu quy",
+      "date": "2026-12-27",
+      "time": "08:00",
+      "place": "Tư gia nhà gái",
+      "addr": "[Địa chỉ nhà gái]"
+    },
+    {
+      "title": "Lễ thành hôn",
+      "date": "2026-12-27",
+      "time": "10:00",
+      "place": "Tư gia nhà trai",
+      "addr": "[Địa chỉ nhà trai]"
+    },
+    {
+      "title": "Tiệc cưới nhà trai",
+      "date": "2026-12-27",
+      "time": "11:00",
+      "place": "[Nhà hàng / tư gia nhà trai]",
+      "addr": "[Địa chỉ]"
+    }
   ],
-  "groom": { "photo": "", "bio": "Con ông [Tên bố] và bà [Tên mẹ]. [Vài dòng giới thiệu về chú rể]" },
-  "bride": { "photo": "", "bio": "Con ông [Tên bố] và bà [Tên mẹ]. [Vài dòng giới thiệu về cô dâu]" },
+  "groom": {
+    "bio": "Con ông [Tên bố] và bà [Tên mẹ]. [Vài dòng giới thiệu về chú rể]"
+  },
+  "bride": {
+    "bio": "Con ông [Tên bố] và bà [Tên mẹ]. [Vài dòng giới thiệu về cô dâu]"
+  },
   "gifts": [
-    { "title": "Mừng cưới đến chú rể", "bank": "[Ngân hàng]", "no": "[Số tài khoản]", "name": "[TÊN CHỦ TÀI KHOẢN]", "qr": "" },
-    { "title": "Mừng cưới đến cô dâu", "bank": "[Ngân hàng]", "no": "[Số tài khoản]", "name": "[TÊN CHỦ TÀI KHOẢN]", "qr": "" }
+    {
+      "title": "Mừng cưới đến chú rể",
+      "bank": "[Ngân hàng]",
+      "no": "[Số tài khoản]",
+      "name": "[TÊN CHỦ TÀI KHOẢN]"
+    },
+    {
+      "title": "Mừng cưới đến cô dâu",
+      "bank": "[Ngân hàng]",
+      "no": "[Số tài khoản]",
+      "name": "[TÊN CHỦ TÀI KHOẢN]"
+    }
   ],
   "apiUrl": "https://script.google.com/macros/s/AKfycbxHma0pKCGxTrj0JHBUwQQvzD5iHrkTX3RNwNv6r7H85pBT-fwqIFFLNX0C3ACIr5dQbg/exec"
 }

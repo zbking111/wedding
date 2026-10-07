@@ -162,9 +162,37 @@ section.soft{background:var(--bg-soft)}
 .sheet{background:var(--bg);width:100%;max-width:440px;max-height:90vh;overflow-y:auto;border-radius:18px;padding:22px;position:relative}
 .sheet h3{margin:0 0 12px;font-family:var(--f-script);font-size:34px;color:var(--wine);text-align:center}
 .x{position:absolute;top:10px;right:12px;border:0;background:none;font-size:24px;cursor:pointer;color:var(--muted);line-height:1}
-.lb{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.9);display:grid;place-items:center;padding:16px}
-.lb img{max-width:100%;max-height:86vh;border-radius:6px}
-.lb .x{color:#fff;font-size:32px}
+/* Trình xem ảnh toàn màn hình */
+.gv{position:fixed;inset:0;z-index:60;background:#0b0809;color:#fff;display:grid;grid-template-rows:auto 1fr auto auto;user-select:none;-webkit-user-select:none;animation:gvIn .25s ease}
+@keyframes gvIn{from{opacity:0}to{opacity:1}}
+.gv-top{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:calc(10px + env(safe-area-inset-top,0px)) 12px 6px;position:relative;z-index:2}
+.gv-count{font-size:13px;letter-spacing:.08em;opacity:.8;font-variant-numeric:tabular-nums}
+.gv-tools{display:flex;gap:4px}
+.gv-btn{width:40px;height:40px;border:0;border-radius:50%;background:transparent;color:#fff;cursor:pointer;display:grid;place-items:center;opacity:.8;transition:opacity .2s,background .2s}
+.gv-btn:hover{opacity:1;background:rgba(255,255,255,.1)}
+.gv-btn.on{opacity:1;color:#f3c1c7}
+.gv-bar{position:absolute;left:0;bottom:0;height:2px;width:0;background:#f3c1c7}
+.gv-bar.run{animation:gvBar var(--gv-dur,3.5s) linear forwards}
+@keyframes gvBar{to{width:100%}}
+.gv-stage{position:relative;overflow:hidden;display:grid;place-items:center;touch-action:none;min-height:0}
+.gv-img{max-width:calc(100% - 24px);max-height:100%;object-fit:contain;transition:transform .35s cubic-bezier(.2,.7,.2,1),opacity .35s;will-change:transform;cursor:zoom-in;-webkit-user-drag:none}
+.gv-img.zoomed{cursor:grab;transition:transform .2s}
+.gv-img.drag{transition:none}
+.gv-img.from-r{transform:translateX(40px);opacity:0}
+.gv-img.from-l{transform:translateX(-40px);opacity:0}
+.gv-nav{position:absolute;top:50%;transform:translateY(-50%);z-index:2;width:44px;height:44px;border-radius:50%;border:0;background:rgba(255,255,255,.08);color:#fff;cursor:pointer;display:grid;place-items:center;transition:background .2s}
+.gv-nav:hover{background:rgba(255,255,255,.18)}
+.gv-prev{left:10px}.gv-next{right:10px}
+@media (max-width:600px){.gv-nav{display:none}}
+.gv-cap{margin:0;padding:8px 16px 4px;text-align:center;font-size:13px;line-height:1.5;opacity:.85;max-width:70ch;justify-self:center}
+.gv-thumbs{display:flex;gap:6px;overflow-x:auto;padding:8px 12px calc(12px + env(safe-area-inset-bottom,0px));scrollbar-width:none}
+.gv-thumbs::-webkit-scrollbar{display:none}
+.gv-thumbs button{flex:none;width:56px;height:56px;padding:0;border:2px solid transparent;border-radius:6px;overflow:hidden;cursor:pointer;opacity:.45;background:#222;transition:opacity .2s,border-color .2s}
+.gv-thumbs button.on{opacity:1;border-color:#f3c1c7}
+.gv :focus-visible{outline-color:#f3c1c7}
+.gv-thumbs img{width:100%;height:100%;object-fit:cover;display:block}
+.album .more-tile{position:relative}
+.album .more-tile span{position:absolute;inset:0;display:grid;place-items:center;background:rgba(43,34,36,.55);color:#fff;font-size:20px;font-family:var(--f-display);letter-spacing:.05em}
 
 /* Lời chúc nổi góc phải */
 .float-wish{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:30;width:min(280px,calc(100vw - 24px));background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 32px 10px 12px;box-shadow:0 10px 30px -10px rgba(60,20,25,.35);display:flex;gap:10px;align-items:flex-start;transition:opacity .5s,transform .5s}
@@ -314,7 +342,25 @@ footer p{margin:4px 0;opacity:.85;font-size:14px}
   </div>
 </div>
 
-<div class="lb" id="lightbox" hidden><button class="x" type="button" data-close aria-label="Đóng">×</button><img id="lb-img" alt=""></div>
+<div class="gv" id="gv" hidden role="dialog" aria-modal="true" aria-label="Xem ảnh cưới">
+  <div class="gv-top">
+    <span class="gv-count" id="gv-count"></span>
+    <div class="gv-tools">
+      <button class="gv-btn" id="gv-play" type="button" aria-label="Tự động chuyển ảnh"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="7 4 19 12 7 20 7 4"/></svg></button>
+      <button class="gv-btn" id="gv-zoom" type="button" aria-label="Phóng to"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg></button>
+      <button class="gv-btn" id="gv-full" type="button" aria-label="Toàn màn hình"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      <button class="gv-btn" id="gv-close" type="button" aria-label="Đóng"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    </div>
+    <div class="gv-bar" id="gv-bar"></div>
+  </div>
+  <div class="gv-stage" id="gv-stage">
+    <button class="gv-nav gv-prev" id="gv-prev" type="button" aria-label="Ảnh trước"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <img class="gv-img" id="gv-img" alt="" draggable="false">
+    <button class="gv-nav gv-next" id="gv-next" type="button" aria-label="Ảnh sau"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+  </div>
+  <p class="gv-cap" id="gv-cap"></p>
+  <div class="gv-thumbs" id="gv-thumbs"></div>
+</div>
 
 <div class="float-wish out" id="float-wish" hidden aria-live="polite">
   <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.6 4.5c2.1 0 3.5 1.1 5.4 3.1 1.9-2 3.3-3.1 5.4-3.1 3.6 0 5.7 3.9 4.2 7.3C19.5 16.4 12 21 12 21z"/></svg></div>
@@ -391,16 +437,95 @@ if (CONFIG.music) {
   }
 })();
 
-// Album + lightbox
-CONFIG.photos.forEach((src, i) => {
-  const b = el("button", i >= 6 ? "extra" : ""); b.type = "button";
-  if (src) { const im = el("img"); im.src = src; im.alt = "Ảnh cưới " + NAMES + " " + (i+1); im.loading = "lazy"; b.append(im);
-    b.addEventListener("click", () => { $("lb-img").src = src; $("lb-img").alt = im.alt; $("lightbox").hidden = false; }); }
-  else { b.textContent = "Ảnh " + (i+1); b.style.cursor = "default"; }
-  $("album-grid").append(b);
+// Album + trình xem ảnh
+const PICS = CONFIG.photos.filter(Boolean);
+const SHOWN = PICS.length > 6 ? 6 : PICS.length;
+if (!PICS.length) {
+  for (let i = 0; i < 6; i++) { const b = el("button", "", "Ảnh " + (i+1)); b.type = "button"; b.style.cursor = "default"; $("album-grid").append(b); }
+} else {
+  PICS.slice(0, SHOWN).forEach((src, i) => {
+    const b = el("button"); b.type = "button"; b.setAttribute("aria-label", "Xem ảnh " + (i+1));
+    const im = el("img"); im.src = src; im.alt = "Ảnh cưới " + NAMES + " " + (i+1); im.loading = "lazy"; b.append(im);
+    if (i === SHOWN - 1 && PICS.length > SHOWN) { b.classList.add("more-tile"); b.append(el("span", null, "+" + (PICS.length - SHOWN))); }
+    b.addEventListener("click", () => openGallery(i));
+    $("album-grid").append(b);
+  });
+}
+$("album-all").hidden = PICS.length <= 1;
+$("album-all").textContent = "Xem tất cả " + PICS.length + " ảnh";
+$("album-all").addEventListener("click", () => openGallery(0));
+
+const G = { i: 0, zoom: 1, x: 0, y: 0, timer: null, dur: 3500 };
+const gv = $("gv"), gImg = $("gv-img"), gStage = $("gv-stage");
+PICS.forEach((src, i) => {
+  const t = el("button"); t.type = "button"; t.setAttribute("aria-label", "Ảnh " + (i+1));
+  const im = el("img"); im.src = src; im.alt = ""; im.loading = "lazy"; t.append(im);
+  t.addEventListener("click", () => show(i, i > G.i ? 1 : -1)); $("gv-thumbs").append(t);
 });
-if (CONFIG.photos.length <= 6) $("album-all").hidden = true;
-$("album-all").addEventListener("click", e => { const g = $("album-grid"); g.classList.toggle("all"); e.target.textContent = g.classList.contains("all") ? "Thu gọn" : "Tất cả hình ảnh"; });
+$("gv-cap").textContent = S.albumQuote || "";
+function setT(){ gImg.style.transform = G.zoom > 1 ? `translate(${G.x}px,${G.y}px) scale(${G.zoom})` : ""; gImg.classList.toggle("zoomed", G.zoom > 1); $("gv-zoom").classList.toggle("on", G.zoom > 1); }
+function resetZoom(){ G.zoom = 1; G.x = G.y = 0; setT(); }
+function show(i, dir){
+  G.i = (i + PICS.length) % PICS.length; resetZoom();
+  gImg.classList.remove("from-r", "from-l"); void gImg.offsetWidth;
+  if (dir) gImg.classList.add(dir > 0 ? "from-r" : "from-l");
+  const src = PICS[G.i], pre = new Image(); pre.src = src;
+  const done = () => { gImg.src = src; gImg.alt = "Ảnh cưới " + NAMES + " " + (G.i+1); requestAnimationFrame(() => gImg.classList.remove("from-r", "from-l")); };
+  pre.decode ? pre.decode().then(done, done) : (pre.onload = done);
+  $("gv-count").textContent = (G.i + 1) + " / " + PICS.length;
+  [...$("gv-thumbs").children].forEach((t, k) => t.classList.toggle("on", k === G.i));
+  $("gv-thumbs").children[G.i]?.scrollIntoView({ inline: "center", block: "nearest", behavior: "smooth" });
+  [1, -1].forEach(d => { const n = new Image(); n.src = PICS[(G.i + d + PICS.length) % PICS.length]; });
+  if (G.timer) restartBar();
+}
+function restartBar(){ const b = $("gv-bar"); b.classList.remove("run"); void b.offsetWidth; b.style.setProperty("--gv-dur", G.dur + "ms"); b.classList.add("run"); }
+function play(on){
+  clearInterval(G.timer); G.timer = null; $("gv-bar").classList.remove("run"); $("gv-play").classList.toggle("on", on);
+  if (on) { G.timer = setInterval(() => show(G.i + 1, 1), G.dur); restartBar(); }
+}
+function openGallery(i){ if (!PICS.length) return; gv.hidden = false; document.body.style.overflow = "hidden"; show(i, 0); $("gv-close").focus(); }
+function closeGallery(){ play(false); resetZoom(); gv.hidden = true; document.body.style.overflow = ""; if (document.fullscreenElement) document.exitFullscreen().catch(() => {}); }
+$("gv-prev").addEventListener("click", () => show(G.i - 1, -1));
+$("gv-next").addEventListener("click", () => show(G.i + 1, 1));
+$("gv-close").addEventListener("click", closeGallery);
+$("gv-play").addEventListener("click", () => play(!G.timer));
+function toggleZoom(cx, cy){
+  if (G.zoom > 1) return resetZoom();
+  const r = gImg.getBoundingClientRect(); G.zoom = 2.2;
+  if (cx != null) { G.x = (r.left + r.width / 2 - cx) * (G.zoom - 1); G.y = (r.top + r.height / 2 - cy) * (G.zoom - 1); }
+  setT();
+}
+$("gv-zoom").addEventListener("click", () => toggleZoom());
+gImg.addEventListener("dblclick", e => toggleZoom(e.clientX, e.clientY));
+if (gv.requestFullscreen) $("gv-full").addEventListener("click", () => document.fullscreenElement ? document.exitFullscreen().catch(() => {}) : gv.requestFullscreen().catch(() => {}));
+else $("gv-full").hidden = true;
+document.addEventListener("keydown", e => {
+  if (gv.hidden) return;
+  if (e.key === "ArrowRight") show(G.i + 1, 1); else if (e.key === "ArrowLeft") show(G.i - 1, -1); else if (e.key === "Escape") closeGallery();
+});
+// Vuốt / kéo
+let P = null, lastTap = 0;
+gStage.addEventListener("pointerdown", e => {
+  if (e.target.closest("button")) return;
+  P = { x: e.clientX, y: e.clientY, gx: G.x, gy: G.y, t: Date.now() }; gImg.classList.add("drag"); gStage.setPointerCapture(e.pointerId);
+});
+gStage.addEventListener("pointermove", e => {
+  if (!P) return; const dx = e.clientX - P.x, dy = e.clientY - P.y;
+  if (G.zoom > 1) { G.x = P.gx + dx; G.y = P.gy + dy; setT(); }
+  else gImg.style.transform = `translateX(${dx}px)`;
+});
+gStage.addEventListener("pointerup", e => {
+  if (!P) return; const dx = e.clientX - P.x, dy = e.clientY - P.y, moved = Math.hypot(dx, dy);
+  gImg.classList.remove("drag");
+  if (G.zoom === 1) {
+    if (dx < -50) show(G.i + 1, 1); else if (dx > 50) show(G.i - 1, -1); else gImg.style.transform = "";
+    if (dy > 120 && Math.abs(dx) < 60) closeGallery();
+  }
+  if (moved < 8 && e.pointerType === "touch") { const now = Date.now(); if (now - lastTap < 300) toggleZoom(e.clientX, e.clientY); lastTap = now; }
+  if (moved < 8 && e.target === gStage) closeGallery();
+  P = null;
+});
+gStage.addEventListener("pointercancel", () => { P = null; gImg.classList.remove("drag"); setT(); });
 
 // Lịch tháng
 (function(){
@@ -454,8 +579,8 @@ CONFIG.gifts.forEach(g => {
 
 // Modal & lightbox
 document.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => { $(b.dataset.open).hidden = false; }));
-document.querySelectorAll(".modal,.lb").forEach(m => m.addEventListener("click", e => { if (e.target === m || e.target.hasAttribute("data-close")) m.hidden = true; }));
-document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".modal,.lb").forEach(m => m.hidden = true); });
+document.querySelectorAll(".modal").forEach(m => m.addEventListener("click", e => { if (e.target === m || e.target.hasAttribute("data-close")) m.hidden = true; }));
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".modal").forEach(m => m.hidden = true); });
 
 // Lưu dữ liệu qua Google Apps Script
 async function send(payload){

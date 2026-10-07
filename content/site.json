@@ -5,6 +5,7 @@
   "weddingTime": "11:00",
   "lunarText": "Tức 19/11 năm Bính Ngọ",
   "heroPhoto": "/media/images/cac-concept-chup-anh-cuoi-phim-truong-683x1024.jpg",
+  "music": "/media/images/ngay-cuoi.mp3",
   "youtubeId": "Snd9-7dxvQk",
   "videoQuote": "Tình yêu không làm cho thế giới quay tròn, tình yêu làm cho chuyến đi trở nên đáng giá.",
   "albumQuote": "Được ai đó yêu sâu sắc sẽ mang lại cho bạn sức mạnh, trong khi yêu ai đó sâu sắc sẽ cho bạn dũng khí.",
@@ -73,7 +74,8 @@
     "party": true,
     "gifts": true,
     "wishes": true,
-    "rsvp": true
+    "rsvp": true,
+    "hearts": true
   },
   "apiUrl": "https://script.google.com/macros/s/AKfycbxHma0pKCGxTrj0JHBUwQQvzD5iHrkTX3RNwNv6r7H85pBT-fwqIFFLNX0C3ACIr5dQbg/exec"
 }

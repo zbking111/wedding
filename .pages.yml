@@ -113,4 +113,5 @@ content:
           - { name: gifts, label: Hộp mừng cưới, type: boolean, default: true }
           - { name: wishes, label: Sổ lưu bút, type: boolean, default: true }
           - { name: rsvp, label: Xác nhận tham dự, type: boolean, default: true }
+          - { name: hearts, label: Hiệu ứng thả tim, type: boolean, default: true }
       - { name: apiUrl, label: Link Apps Script (không sửa), type: string }

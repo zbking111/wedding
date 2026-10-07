@@ -22,6 +22,7 @@ content:
       - { name: videoQuote, label: Câu trích mục Video, type: text }
       - { name: albumQuote, label: Câu trích mục Album, type: text }
       - { name: letter, label: "Lời ngỏ (cách đoạn bằng một dòng trống)", type: text }
+      - { name: letterPhoto, label: Ảnh cặp đôi dưới lời ngỏ (ảnh dọc đẹp nhất), type: image }
       - name: photos
         label: Album ảnh cưới (6 ảnh đầu hiện sẵn)
         type: image
@@ -37,18 +38,26 @@ content:
           - { name: place, label: Địa điểm, type: string }
           - { name: addr, label: Địa chỉ, type: string }
           - { name: map, label: "Link Google Maps (không bắt buộc)", type: string }
+          - name: colors
+            label: "Dress code – mã màu, ví dụ #c9a9a6 (không bắt buộc)"
+            type: string
+            list: true
       - name: groom
         label: Chú rể
         type: object
         fields:
           - { name: photo, label: Ảnh chú rể, type: image }
           - { name: bio, label: Giới thiệu, type: text }
+          - { name: father, label: Tên bố chú rể, type: string }
+          - { name: mother, label: Tên mẹ chú rể, type: string }
       - name: bride
         label: Cô dâu
         type: object
         fields:
           - { name: photo, label: Ảnh cô dâu, type: image }
           - { name: bio, label: Giới thiệu, type: text }
+          - { name: father, label: Tên bố cô dâu, type: string }
+          - { name: mother, label: Tên mẹ cô dâu, type: string }
       - name: gifts
         label: Hộp mừng cưới
         type: object
@@ -59,4 +68,49 @@ content:
           - { name: no, label: Số tài khoản, type: string }
           - { name: name, label: Chủ tài khoản, type: string }
           - { name: qr, label: Ảnh mã QR, type: image }
+      - { name: storyQuote, label: Câu trích mục Chuyện tình yêu, type: text }
+      - name: stories
+        label: Chuyện tình yêu (mỗi mốc là một thẻ)
+        type: object
+        list: true
+        fields:
+          - { name: date, label: "Mốc thời gian (ví dụ 06/2021)", type: string }
+          - { name: title, label: Tiêu đề, type: string }
+          - { name: text, label: Câu chuyện, type: text }
+          - { name: photo, label: Ảnh, type: image }
+      - name: bridesmaids
+        label: Phù dâu
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Tên, type: string }
+          - { name: photo, label: Ảnh, type: image }
+          - { name: intro, label: Giới thiệu ngắn, type: string }
+      - name: groomsmen
+        label: Phù rể
+        type: object
+        list: true
+        fields:
+          - { name: name, label: Tên, type: string }
+          - { name: photo, label: Ảnh, type: image }
+          - { name: intro, label: Giới thiệu ngắn, type: string }
+      - name: wishSuggestions
+        label: Lời chúc gợi ý (để trống sẽ dùng câu mặc định)
+        type: string
+        list: true
+      - name: sections
+        label: Ẩn/hiện các mục (bỏ tick để ẩn)
+        type: object
+        fields:
+          - { name: video, label: Video cưới, type: boolean, default: true }
+          - { name: album, label: Album ảnh, type: boolean, default: true }
+          - { name: calendar, label: Lịch và đếm ngược, type: boolean, default: true }
+          - { name: story, label: Chuyện tình yêu, type: boolean, default: true }
+          - { name: letter, label: Lời ngỏ, type: boolean, default: true }
+          - { name: events, label: Sự kiện cưới, type: boolean, default: true }
+          - { name: couple, label: Cô dâu & chú rể, type: boolean, default: true }
+          - { name: party, label: Phù dâu & phù rể, type: boolean, default: true }
+          - { name: gifts, label: Hộp mừng cưới, type: boolean, default: true }
+          - { name: wishes, label: Sổ lưu bút, type: boolean, default: true }
+          - { name: rsvp, label: Xác nhận tham dự, type: boolean, default: true }
       - { name: apiUrl, label: Link Apps Script (không sửa), type: string }

@@ -473,7 +473,7 @@ try { S = await (await fetch("content/site.json?v=" + Date.now(), { cache: "no-s
 catch (e) { document.body.insertAdjacentHTML("afterbegin", '<p style="padding:16px;text-align:center">Không tải được nội dung trang. Vui lòng tải lại.</p>'); return; }
 const CONFIG = {
   start: S.weddingDate + "T" + (S.weddingTime || "11:00") + ":00+07:00",
-  heroPhoto: S.heroPhoto || "", music: S.music || "", youtubeId: S.youtubeId || "", apiUrl: S.apiUrl || "",
+  heroPhoto: S.heroPhoto || "", music: S.music || "/media/images/ngay-cuoi.mp3", youtubeId: S.youtubeId || "", apiUrl: S.apiUrl || "",
   photos: (S.photos || []).filter(Boolean),
   events: S.events || [],
   couple: [

@@ -1,0 +1,62 @@
+media:
+  input: media/images
+  output: /media/images
+  rename: safe
+  categories: [image, audio]
+
+content:
+  - name: site
+    label: Nội dung trang cưới
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+      - { name: groomName, label: Tên chú rể, type: string, required: true }
+      - { name: brideName, label: Tên cô dâu, type: string, required: true }
+      - { name: weddingDate, label: Ngày cưới (dùng cho đếm ngược và lịch), type: date, required: true }
+      - { name: weddingTime, label: "Giờ tiệc chính (ví dụ 11:00)", type: string }
+      - { name: lunarText, label: Ngày âm lịch, type: string }
+      - { name: heroPhoto, label: Ảnh bìa, type: image }
+      - { name: music, label: Nhạc nền (file mp3), type: file }
+      - { name: youtubeId, label: "ID video YouTube (phần sau v= trong link)", type: string }
+      - { name: videoQuote, label: Câu trích mục Video, type: text }
+      - { name: albumQuote, label: Câu trích mục Album, type: text }
+      - { name: letter, label: "Lời ngỏ (cách đoạn bằng một dòng trống)", type: text }
+      - name: photos
+        label: Album ảnh cưới (6 ảnh đầu hiện sẵn)
+        type: image
+        list: true
+      - name: events
+        label: Sự kiện cưới
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Tên sự kiện, type: string }
+          - { name: date, label: Ngày, type: date }
+          - { name: time, label: "Giờ (ví dụ 08:00)", type: string }
+          - { name: place, label: Địa điểm, type: string }
+          - { name: addr, label: Địa chỉ, type: string }
+          - { name: map, label: "Link Google Maps (không bắt buộc)", type: string }
+      - name: groom
+        label: Chú rể
+        type: object
+        fields:
+          - { name: photo, label: Ảnh chú rể, type: image }
+          - { name: bio, label: Giới thiệu, type: text }
+      - name: bride
+        label: Cô dâu
+        type: object
+        fields:
+          - { name: photo, label: Ảnh cô dâu, type: image }
+          - { name: bio, label: Giới thiệu, type: text }
+      - name: gifts
+        label: Hộp mừng cưới
+        type: object
+        list: true
+        fields:
+          - { name: title, label: Tiêu đề, type: string }
+          - { name: bank, label: Ngân hàng, type: string }
+          - { name: no, label: Số tài khoản, type: string }
+          - { name: name, label: Chủ tài khoản, type: string }
+          - { name: qr, label: Ảnh mã QR, type: image }
+      - { name: apiUrl, label: Link Apps Script (không sửa), type: string }

@@ -1,0 +1,515 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta property="og:title" content="Thiệp cưới online">
+<meta property="og:description" content="Trân trọng kính mời bạn đến dự lễ thành hôn của chúng mình.">
+<title>Thiệp cưới</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Dancing+Script:wght@600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap">
+<style>
+/* Layout: một cột dọc kiểu thiệp online — thanh trên cố định, hero ảnh lớn, 3 nút hành động, rồi các mục nối tiếp. Một theme sáng cố ý. */
+:root{
+  --bg:#ffffff;
+  --bg-soft:#f8f1f1;     /* nền mục xen kẽ, hồng phấn rất nhạt */
+  --ink:#2b2224;
+  --muted:#7b6b6d;
+  --wine:#8c2f39;        /* điểm nhấn chính */
+  --wine-deep:#6b1f28;
+  --line:#ead9da;
+  --gold:#b8935a;
+  --f-display:"Cormorant Garamond","Times New Roman",serif;
+  --f-script:"Dancing Script","Brush Script MT",cursive;
+  --f-body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font:300 15px/1.7 var(--f-body)}
+a{color:inherit}
+button{font:inherit}
+:focus-visible{outline:2px solid var(--wine);outline-offset:3px}
+.wrap{max-width:720px;margin:0 auto;padding-inline:16px}
+
+/* Thanh trên */
+.topbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:10px}
+.mono{font-family:var(--f-display);font-size:24px;font-weight:600;color:var(--wine);letter-spacing:.04em}
+.status{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted)}
+.status b{font-family:var(--f-display);font-size:20px;color:var(--ink);font-weight:600}
+.pill{background:var(--wine);color:#fff;padding:3px 10px;border-radius:999px;font-size:12px;font-weight:500}
+.music{width:36px;height:36px;border-radius:50%;border:1px solid var(--line);background:#fff;color:var(--wine);cursor:pointer;display:grid;place-items:center}
+.music.on svg{animation:spin 4s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Hero */
+.hero{position:relative;max-width:720px;margin:0 auto;aspect-ratio:3/4;max-height:88vh;width:100%;overflow:hidden;background:linear-gradient(160deg,#e9d6d6,#c9a9a9)}
+.hero img{width:100%;height:100%;object-fit:cover;display:block}
+.hero .ph-label{position:absolute;inset:0;display:grid;place-items:center;color:rgba(255,255,255,.7);font-size:12px;letter-spacing:.3em;text-transform:uppercase;padding-bottom:40%}
+.hero-text{position:absolute;inset:auto 0 0 0;padding:80px 16px 28px;text-align:center;color:#fff;background:linear-gradient(transparent,rgba(30,10,14,.7))}
+.hero-text .save{font-size:12px;letter-spacing:.35em;text-transform:uppercase;opacity:.9}
+.hero-text h1{font-family:var(--f-script);font-weight:700;font-size:clamp(48px,12vw,84px);line-height:1.1;margin:4px 0;text-wrap:balance}
+.hero-text h1 span:not(.g){font-family:var(--f-display);font-style:italic;font-weight:500;font-size:.55em;margin:0 .15em}
+.hero-text .d{font-family:var(--f-display);font-size:22px;letter-spacing:.2em}
+.countdown{display:flex;justify-content:center;gap:8px;margin-top:14px}
+.cd{min-width:62px;padding:6px 4px;border:1px solid rgba(255,255,255,.5);border-radius:8px;background:rgba(255,255,255,.1)}
+.cd b{display:block;font-family:var(--f-display);font-size:26px;line-height:1.1;font-variant-numeric:tabular-nums}
+.cd span{font-size:10px;letter-spacing:.15em;text-transform:uppercase;opacity:.85}
+
+/* 3 nút hành động */
+.actions{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding-block:18px}
+.act{display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 6px;border:1px solid var(--line);border-radius:12px;background:#fff;cursor:pointer;color:var(--ink);font-size:13px;font-weight:500;text-decoration:none;transition:border-color .2s,transform .2s}
+.act:hover{border-color:var(--wine);transform:translateY(-2px)}
+.act svg{color:var(--wine)}
+
+/* Mục chung */
+section{padding-block:52px}
+section.soft{background:var(--bg-soft)}
+.head{text-align:center;margin-bottom:26px}
+.head h2{font-family:var(--f-script);font-weight:700;font-size:clamp(34px,8vw,46px);color:var(--wine);margin:0;line-height:1.2}
+.head p{font-family:var(--f-display);font-style:italic;font-size:18px;color:var(--muted);margin:6px auto 0;max-width:52ch;text-wrap:balance}
+.orn{display:block;margin:10px auto 0;color:var(--gold)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:10px 20px;border-radius:999px;border:1px solid var(--wine);background:var(--wine);color:#fff;font-size:14px;font-weight:500;cursor:pointer;text-decoration:none;transition:background .2s}
+.btn:hover{background:var(--wine-deep)}
+.btn.ghost{background:transparent;color:var(--wine)}
+.btn.ghost:hover{background:var(--bg-soft)}
+.btn.sm{padding:7px 14px;font-size:13px}
+.center{text-align:center}
+
+/* Video */
+.video{position:relative;aspect-ratio:16/9;max-width:100%;border-radius:14px;overflow:hidden;background:#2b2224;display:grid;place-items:center;text-decoration:none;color:#fff}
+.video iframe{position:absolute;inset:0;width:100%;height:100%;border:0}
+.video .play{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:14px}
+.video .play i{width:64px;height:64px;border-radius:50%;background:var(--wine);display:grid;place-items:center}
+
+/* Album */
+.album{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.album button{padding:0;border:0;cursor:zoom-in;aspect-ratio:1;overflow:hidden;border-radius:8px;background:linear-gradient(135deg,#efe1e1,#dcc3c3);color:var(--wine);font-size:11px;letter-spacing:.15em;text-transform:uppercase}
+.album img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s}
+.album button:hover img{transform:scale(1.05)}
+.album .extra{display:none}
+.album.all .extra{display:block}
+
+/* Lịch */
+.cal{max-width:380px;margin:0 auto;background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px}
+.cal h3{text-align:center;font-family:var(--f-display);font-size:24px;margin:0 0 12px;color:var(--ink);font-weight:600}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center;font-variant-numeric:tabular-nums}
+.cal-grid .dow{font-size:11px;font-weight:600;color:var(--muted);padding-bottom:4px}
+.cal-grid .day{padding:7px 0;font-size:14px;border-radius:50%;position:relative}
+.cal-grid .hit{color:#fff;font-weight:600;z-index:0}
+.cal-grid .hit::before{content:"";position:absolute;inset:-4px;z-index:-1;background:no-repeat center/contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%238c2f39' d='M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.6 4.5c2.1 0 3.5 1.1 5.4 3.1 1.9-2 3.3-3.1 5.4-3.1 3.6 0 5.7 3.9 4.2 7.3C19.5 16.4 12 21 12 21z'/%3E%3C/svg%3E");animation:beat 1.6s ease-in-out infinite}
+@keyframes beat{50%{transform:scale(1.12)}}
+.cal-foot{text-align:center;margin-top:12px;font-size:13px;color:var(--muted)}
+
+/* Lời ngỏ */
+.letter{max-width:58ch;margin:0 auto;text-align:center;font-size:16px}
+.letter p{margin:0 0 12px}
+
+/* Sự kiện */
+.events{display:grid;gap:16px}
+.ev{display:grid;grid-template-columns:110px 1fr;gap:16px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px;align-items:start}
+.ev-time{text-align:center;border-right:1px solid var(--line);padding-right:12px}
+.ev-time b{display:block;font-family:var(--f-display);font-size:30px;font-weight:600;color:var(--wine);line-height:1.1;font-variant-numeric:tabular-nums}
+.ev-time span{font-size:12px;color:var(--muted)}
+.ev-body{min-width:0}
+.ev-body h3{margin:0;font-family:var(--f-display);font-size:24px;font-weight:600;line-height:1.2}
+.ev-body .where{font-weight:500;margin-top:4px}
+.ev-body .addr{font-size:14px;color:var(--muted)}
+.ev-body .btns{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+@media (max-width:480px){.ev{grid-template-columns:1fr}.ev-time{border-right:0;border-bottom:1px solid var(--line);padding:0 0 10px;display:flex;align-items:baseline;justify-content:center;gap:10px}}
+
+/* Cô dâu chú rể */
+.couple{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:24px}
+.person{text-align:center;min-width:0}
+.avatar{width:180px;height:180px;max-width:100%;margin:0 auto 14px;border-radius:50%;overflow:hidden;border:4px solid #fff;box-shadow:0 0 0 1px var(--line);background:linear-gradient(135deg,#efe1e1,#dcc3c3);display:grid;place-items:center;color:var(--wine);font-size:11px;letter-spacing:.15em;text-transform:uppercase}
+.avatar img{width:100%;height:100%;object-fit:cover}
+.person .role{font-size:12px;letter-spacing:.25em;text-transform:uppercase;color:var(--gold);font-weight:500}
+.person h3{font-family:var(--f-script);font-size:40px;color:var(--wine);margin:2px 0 6px;font-weight:700;line-height:1.2}
+.person .bio{color:var(--muted);font-size:14px;max-width:40ch;margin:0 auto}
+.person .bio.clamp{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.more{background:none;border:0;color:var(--wine);cursor:pointer;font-size:13px;font-weight:500;padding:6px;text-decoration:underline;text-underline-offset:3px}
+
+/* Mừng cưới */
+.gifts{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
+.gift{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;text-align:center;min-width:0}
+.gift h3{margin:0 0 10px;font-family:var(--f-display);font-size:22px;font-weight:600}
+.qr{width:160px;height:160px;max-width:100%;margin:0 auto 12px;border:1px dashed var(--line);border-radius:10px;display:grid;place-items:center;color:var(--muted);font-size:11px;letter-spacing:.12em;text-transform:uppercase;overflow:hidden}
+.qr img{width:100%;height:100%;object-fit:contain}
+.gift dl{margin:0 0 12px;display:grid;gap:2px;font-size:14px}
+.gift dt{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}
+.gift dd{margin:0 0 6px;font-weight:500;word-break:break-word;font-variant-numeric:tabular-nums}
+
+/* Sổ lưu bút */
+.form{display:grid;gap:10px;background:#fff;border:1px solid var(--line);border-radius:16px;padding:18px}
+.form label{font-size:13px;font-weight:500;display:grid;gap:4px}
+.form input,.form textarea,.form select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;font-weight:400;color:var(--ink);background:#fff}
+.form input:focus,.form textarea:focus,.form select:focus{outline:none;border-color:var(--wine)}
+.form textarea{min-height:90px;resize:vertical}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+@media (max-width:420px){.row2{grid-template-columns:1fr}}
+.msg{font-size:13px;min-height:1.3em;margin:0;color:var(--wine)}
+.wishes{display:grid;gap:10px;margin-top:18px;max-height:460px;overflow-y:auto;padding-right:4px}
+.wish{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.wish b{color:var(--wine);font-weight:600}
+.wish p{margin:4px 0 0;font-size:14px;white-space:pre-wrap;word-break:break-word}
+.empty{text-align:center;color:var(--muted);font-size:14px;padding:18px;border:1px dashed var(--line);border-radius:12px;margin-top:18px}
+
+/* Modal */
+.modal{position:fixed;inset:0;z-index:50;background:rgba(30,10,14,.55);display:grid;place-items:center;padding:16px}
+.sheet{background:var(--bg);width:100%;max-width:440px;max-height:90vh;overflow-y:auto;border-radius:18px;padding:22px;position:relative}
+.sheet h3{margin:0 0 12px;font-family:var(--f-script);font-size:34px;color:var(--wine);text-align:center}
+.x{position:absolute;top:10px;right:12px;border:0;background:none;font-size:24px;cursor:pointer;color:var(--muted);line-height:1}
+.lb{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.9);display:grid;place-items:center;padding:16px}
+.lb img{max-width:100%;max-height:86vh;border-radius:6px}
+.lb .x{color:#fff;font-size:32px}
+
+/* Lời chúc nổi góc phải */
+.float-wish{position:fixed;right:12px;bottom:calc(12px + env(safe-area-inset-bottom,0px));z-index:30;width:min(280px,calc(100vw - 24px));background:#fff;border:1px solid var(--line);border-radius:14px;padding:10px 32px 10px 12px;box-shadow:0 10px 30px -10px rgba(60,20,25,.35);display:flex;gap:10px;align-items:flex-start;transition:opacity .5s,transform .5s}
+.float-wish.out{opacity:0;transform:translateY(10px)}
+.float-wish .ic{flex:none;width:30px;height:30px;border-radius:50%;background:var(--bg-soft);color:var(--wine);display:grid;place-items:center}
+.float-wish .tx{min-width:0;font-size:13px;line-height:1.45}
+.float-wish b{display:block;color:var(--wine);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.float-wish p{margin:2px 0 0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;word-break:break-word}
+.float-wish .fx{position:absolute;top:4px;right:6px;border:0;background:none;color:var(--muted);font-size:18px;cursor:pointer;line-height:1;padding:4px}
+footer{text-align:center;padding:48px 16px 56px;background:var(--wine);color:#fff}
+footer .n{font-family:var(--f-script);font-size:48px;line-height:1.2}
+footer p{margin:4px 0;opacity:.85;font-size:14px}
+
+.reveal{animation:up .8s ease both}
+@keyframes up{from{transform:translateY(12px)}to{transform:none}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="wrap">
+    <div class="mono" id="mono"></div>
+    <div class="status"><b id="top-date"></b><span class="pill">Sắp kết hôn</span>
+      <button class="music" id="music" type="button" aria-label="Bật/tắt nhạc nền" hidden>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
+
+<header class="hero" id="hero">
+  <div class="ph-label" id="hero-ph">Ảnh bìa</div>
+  <div class="hero-text">
+    <div class="save">Save the date</div>
+    <h1><span class="g" id="h-groom"></span><span>&amp;</span><span class="g" id="h-bride"></span></h1>
+    <div class="d" id="hero-date"></div>
+    <div class="countdown">
+      <div class="cd"><b id="cd-d">--</b><span>Ngày</span></div>
+      <div class="cd"><b id="cd-h">--</b><span>Giờ</span></div>
+      <div class="cd"><b id="cd-m">--</b><span>Phút</span></div>
+      <div class="cd"><b id="cd-s">--</b><span>Giây</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="wrap">
+  <nav class="actions" aria-label="Hành động nhanh">
+    <a class="act" href="#luu-but"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Gửi lời chúc</a>
+    <button class="act" type="button" data-open="rsvp-modal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Xác nhận tham dự</button>
+    <a class="act" href="#mung-cuoi"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M12 8v13M3 12h18M12 8S9 3 7 4s0 4 5 4c5 0 7-3 5-4s-5 4-5 4"/></svg>Mừng cưới</a>
+  </nav>
+</div>
+
+<section id="video">
+  <div class="wrap">
+    <div class="head"><h2>Video Cưới</h2><p id="video-quote"></p></div>
+    <div id="video-box"></div>
+  </div>
+</section>
+
+<section class="soft" id="album">
+  <div class="wrap">
+    <div class="head"><h2>Album Hình Cưới</h2><p id="album-quote"></p></div>
+    <div class="album" id="album-grid"></div>
+    <div class="center" style="margin-top:18px"><button class="btn ghost" id="album-all" type="button">Tất cả hình ảnh</button></div>
+  </div>
+</section>
+
+<section id="lich">
+  <div class="wrap">
+    <div class="cal">
+      <h3 id="cal-title"></h3>
+      <div class="cal-grid" id="cal"></div>
+      <div class="cal-foot" id="cal-foot"></div>
+    </div>
+  </div>
+</section>
+
+<section class="soft" id="loi-ngo">
+  <div class="wrap">
+    <div class="head"><h2>Lời Ngỏ</h2></div>
+    <div class="letter"><div id="letter-body"></div>
+      <p id="letter-sign" style="font-family:var(--f-script);font-size:26px;color:var(--wine);margin-top:16px"></p></div>
+  </div>
+</section>
+
+<section id="su-kien">
+  <div class="wrap">
+    <div class="head"><h2>Sự Kiện Cưới</h2><p>Sự hiện diện của bạn là niềm vinh hạnh của gia đình chúng mình.</p></div>
+    <div class="events" id="events"></div>
+  </div>
+</section>
+
+<section class="soft" id="co-dau-chu-re">
+  <div class="wrap">
+    <div class="head"><h2>Cô Dâu &amp; Chú Rể</h2></div>
+    <div class="couple" id="couple"></div>
+  </div>
+</section>
+
+<section id="mung-cuoi">
+  <div class="wrap">
+    <div class="head"><h2>Hộp Mừng Cưới</h2><p>Cảm ơn tình cảm của bạn dành cho chúng mình.</p></div>
+    <div class="gifts" id="gifts"></div>
+    <p class="msg center" id="copy-msg" role="status" style="margin-top:12px"></p>
+  </div>
+</section>
+
+<section class="soft" id="luu-but">
+  <div class="wrap">
+    <div class="head"><h2>Sổ Lưu Bút</h2><p>Gửi lời chúc phúc đến cô dâu và chú rể.</p></div>
+    <form class="form" id="wish-form">
+      <label for="w-name">Tên của bạn<input id="w-name" name="name" required maxlength="60" placeholder="Nguyễn Văn A"></label>
+      <label for="w-msg">Lời chúc<textarea id="w-msg" name="message" required maxlength="500" placeholder="Chúc hai bạn trăm năm hạnh phúc..."></textarea></label>
+      <button class="btn" type="submit">Gửi lời chúc</button>
+      <p class="msg" id="wish-msg" role="status"></p>
+    </form>
+    <div class="wishes" id="wishes" hidden></div>
+    <div class="empty" id="wishes-empty">Chưa có lời chúc nào. Hãy là người đầu tiên gửi lời chúc cho cô dâu chú rể.</div>
+  </div>
+</section>
+
+<footer>
+  <div class="n" id="foot-names"></div>
+  <p>Cảm ơn bạn đã là một phần trong câu chuyện của chúng mình.</p>
+  <p id="foot-date"></p>
+</footer>
+
+<!-- Modal xác nhận tham dự -->
+<div class="modal" id="rsvp-modal" hidden role="dialog" aria-modal="true" aria-labelledby="rsvp-title">
+  <div class="sheet">
+    <button class="x" type="button" data-close aria-label="Đóng">×</button>
+    <h3 id="rsvp-title">Xác nhận tham dự</h3>
+    <form class="form" id="rsvp-form" style="border:0;padding:0">
+      <label for="r-name">Họ và tên<input id="r-name" name="name" required maxlength="60"></label>
+      <label for="r-phone">Số điện thoại<input id="r-phone" name="phone" inputmode="tel" maxlength="20"></label>
+      <div class="row2">
+        <label for="r-side">Bạn là khách của<select id="r-side" name="side"><option>Nhà trai</option><option>Nhà gái</option><option>Cả hai</option></select></label>
+        <label for="r-count">Số người<select id="r-count" name="count"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></label>
+      </div>
+      <label for="r-attend">Bạn sẽ tham dự chứ?<select id="r-attend" name="attend"><option>Có, mình sẽ đến</option><option>Rất tiếc, mình không đến được</option></select></label>
+      <label for="r-note">Lời nhắn (không bắt buộc)<textarea id="r-note" name="note" maxlength="300" style="min-height:70px"></textarea></label>
+      <button class="btn" type="submit">Gửi xác nhận</button>
+      <p class="msg" id="rsvp-msg" role="status"></p>
+    </form>
+  </div>
+</div>
+
+<div class="lb" id="lightbox" hidden><button class="x" type="button" data-close aria-label="Đóng">×</button><img id="lb-img" alt=""></div>
+
+<div class="float-wish out" id="float-wish" hidden aria-live="polite">
+  <div class="ic"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 21s-7.5-4.6-9.6-9.2C.9 8.4 3 4.5 6.6 4.5c2.1 0 3.5 1.1 5.4 3.1 1.9-2 3.3-3.1 5.4-3.1 3.6 0 5.7 3.9 4.2 7.3C19.5 16.4 12 21 12 21z"/></svg></div>
+  <div class="tx"><b id="fw-name"></b><p id="fw-msg"></p></div>
+  <button class="fx" type="button" id="fw-close" aria-label="Ẩn lời chúc">×</button>
+</div>
+
+<audio id="bgm" loop preload="none"></audio>
+
+<script>
+/* Nội dung trang nằm ở content/site.json — sửa qua Pages CMS, không cần sửa file này. */
+async function boot(){
+let S;
+try { S = await (await fetch("content/site.json?v=" + Date.now(), { cache: "no-store" })).json(); }
+catch (e) { document.body.insertAdjacentHTML("afterbegin", '<p style="padding:16px;text-align:center">Không tải được nội dung trang. Vui lòng tải lại.</p>'); return; }
+const CONFIG = {
+  start: S.weddingDate + "T" + (S.weddingTime || "11:00") + ":00+07:00",
+  heroPhoto: S.heroPhoto || "", music: S.music || "", youtubeId: S.youtubeId || "", apiUrl: S.apiUrl || "",
+  photos: (S.photos || []).filter(Boolean),
+  events: S.events || [],
+  couple: [
+    { role: "Chú rể", name: S.groomName, photo: S.groom?.photo || "", bio: S.groom?.bio || "" },
+    { role: "Cô dâu", name: S.brideName, photo: S.bride?.photo || "", bio: S.bride?.bio || "" }
+  ],
+  gifts: S.gifts || []
+};
+if (!CONFIG.photos.length) CONFIG.photos = ["", "", "", "", "", ""];
+const NAMES = S.groomName + " & " + S.brideName;
+
+const $ = id => document.getElementById(id);
+const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
+const DOW = ["Chủ nhật","Thứ hai","Thứ ba","Thứ tư","Thứ năm","Thứ sáu","Thứ bảy"];
+
+// Chữ & ngày tháng
+const [Y, M, D] = S.weddingDate.split("-").map(Number), p2 = n => String(n).padStart(2, "0");
+document.title = NAMES;
+$("mono").textContent = S.groomName[0] + " & " + S.brideName[0];
+$("top-date").textContent = p2(D) + "/" + p2(M);
+$("h-groom").textContent = S.groomName; $("h-bride").textContent = S.brideName;
+$("hero-date").textContent = $("foot-date").textContent = p2(D) + " . " + p2(M) + " . " + Y;
+$("cal-title").textContent = "Tháng " + M + " · " + Y;
+$("cal-foot").textContent = DOW[new Date(Y, M - 1, D).getDay()] + ", " + p2(D) + "/" + p2(M) + "/" + Y + (S.lunarText ? " · " + S.lunarText : "");
+$("foot-names").textContent = $("letter-sign").textContent = NAMES;
+$("video-quote").textContent = S.videoQuote || ""; $("album-quote").textContent = S.albumQuote || "";
+(S.letter || "").split(/\n\s*\n/).filter(t => t.trim()).forEach(t => $("letter-body").append(el("p", null, t.trim())));
+
+// Hero
+if (CONFIG.heroPhoto) { const i = el("img"); i.src = CONFIG.heroPhoto; i.alt = NAMES; $("hero").prepend(i); $("hero-ph").remove(); }
+
+// Đếm ngược
+const target = new Date(CONFIG.start).getTime(), pad = n => String(n).padStart(2, "0");
+function tick(){ const s = Math.max(0, Math.floor((target - Date.now()) / 1000));
+  $("cd-d").textContent = Math.floor(s/86400); $("cd-h").textContent = pad(Math.floor(s%86400/3600));
+  $("cd-m").textContent = pad(Math.floor(s%3600/60)); $("cd-s").textContent = pad(s%60); }
+tick(); setInterval(tick, 1000);
+
+// Nhạc nền
+if (CONFIG.music) {
+  const a = $("bgm"), b = $("music"); a.src = CONFIG.music; b.hidden = false;
+  b.addEventListener("click", () => { if (a.paused) { a.play().then(() => b.classList.add("on")).catch(() => {}); } else { a.pause(); b.classList.remove("on"); } });
+}
+
+// Video: nhúng khi chạy trên web riêng, mở link khi xem trong khung
+(function(){
+  const box = $("video-box"), id = CONFIG.youtubeId;
+  if (!id) { const d = el("div", "video"); d.append(Object.assign(el("div","play"), { innerHTML: '<i><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></i>Video cưới sẽ được cập nhật' })); box.append(d); return; }
+  if (window.self === window.top) {
+    const d = el("div","video"), f = el("iframe"); f.src = "https://www.youtube.com/embed/" + id; f.title = "Video cưới " + NAMES; f.allowFullscreen = true;
+    f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"; d.append(f); box.append(d);
+  } else {
+    const a = el("a","video"); a.href = "https://www.youtube.com/watch?v=" + id; a.target = "_blank"; a.rel = "noopener";
+    a.style.background = "#2b2224 center/cover url(https://i.ytimg.com/vi/" + id + "/hqdefault.jpg)";
+    a.innerHTML = '<span class="play"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></i>Xem video trên YouTube</span>'; box.append(a);
+  }
+})();
+
+// Album + lightbox
+CONFIG.photos.forEach((src, i) => {
+  const b = el("button", i >= 6 ? "extra" : ""); b.type = "button";
+  if (src) { const im = el("img"); im.src = src; im.alt = "Ảnh cưới " + NAMES + " " + (i+1); im.loading = "lazy"; b.append(im);
+    b.addEventListener("click", () => { $("lb-img").src = src; $("lb-img").alt = im.alt; $("lightbox").hidden = false; }); }
+  else { b.textContent = "Ảnh " + (i+1); b.style.cursor = "default"; }
+  $("album-grid").append(b);
+});
+if (CONFIG.photos.length <= 6) $("album-all").hidden = true;
+$("album-all").addEventListener("click", e => { const g = $("album-grid"); g.classList.toggle("all"); e.target.textContent = g.classList.contains("all") ? "Thu gọn" : "Tất cả hình ảnh"; });
+
+// Lịch tháng
+(function(){
+  const y = Y, m = M - 1, hit = D;
+  const cal = $("cal"); ["T2","T3","T4","T5","T6","T7","CN"].forEach(t => cal.append(el("div","dow",t)));
+  const first = (new Date(y, m, 1).getDay() + 6) % 7, days = new Date(y, m+1, 0).getDate();
+  for (let i = 0; i < first; i++) cal.append(el("div"));
+  for (let d = 1; d <= days; d++) cal.append(el("div", "day" + (d === hit ? " hit" : ""), d));
+})();
+
+// Sự kiện
+const gTime = (date, time, hours) => { const s = new Date(date + "T" + time + ":00+07:00"), e = new Date(s.getTime() + hours*3600e3);
+  const f = d => d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,""); return f(s) + "/" + f(e); };
+CONFIG.events.forEach(ev => {
+  const [yy, mm, dd] = ev.date.split("-").map(Number);
+  const dateTxt = DOW[new Date(yy, mm - 1, dd).getDay()] + ", " + ev.date.split("-").reverse().join("/");
+  const card = el("div","ev reveal"), t = el("div","ev-time"), b = el("div","ev-body");
+  t.append(el("b", null, ev.time), el("span", null, dateTxt));
+  b.append(el("h3", null, ev.title), el("div","where", ev.place), el("div","addr", ev.addr));
+  const btns = el("div","btns");
+  const cal = el("a","btn sm ghost","Thêm vào lịch"); cal.target = "_blank"; cal.rel = "noopener";
+  cal.href = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(ev.title + " – " + NAMES) + "&dates=" + gTime(ev.date, ev.time, 2) + "&location=" + encodeURIComponent(ev.place + ", " + ev.addr);
+  const map = el("a","btn sm","Chỉ đường"); map.target = "_blank"; map.rel = "noopener";
+  map.href = ev.map || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(ev.place + " " + ev.addr);
+  btns.append(cal, map); b.append(btns); card.append(t, b); $("events").append(card);
+});
+
+// Cô dâu chú rể
+CONFIG.couple.forEach(p => {
+  const c = el("div","person"), av = el("div","avatar");
+  if (p.photo) { const im = el("img"); im.src = p.photo; im.alt = p.role + " " + p.name; av.append(im); } else av.textContent = "Ảnh " + p.role.toLowerCase();
+  const bio = el("p","bio clamp", p.bio), more = el("button","more","Xem thêm"); more.type = "button";
+  more.addEventListener("click", () => { bio.classList.toggle("clamp"); more.textContent = bio.classList.contains("clamp") ? "Xem thêm" : "Thu gọn"; });
+  c.append(av, el("div","role",p.role), el("h3",null,p.name), bio, more); $("couple").append(c);
+});
+
+// Mừng cưới
+CONFIG.gifts.forEach(g => {
+  const c = el("div","gift"), qr = el("div","qr");
+  if (g.qr) { const im = el("img"); im.src = g.qr; im.alt = "Mã QR " + g.title; qr.append(im); } else qr.textContent = "Mã QR";
+  const dl = el("dl"); const no = el("dd", null, g.no);
+  dl.append(el("dt",null,"Ngân hàng"), el("dd",null,g.bank), el("dt",null,"Số tài khoản"), no, el("dt",null,"Chủ tài khoản"), el("dd",null,g.name));
+  const btn = el("button","btn sm","Sao chép số tài khoản"); btn.type = "button";
+  btn.addEventListener("click", () => {
+    const say = m => { $("copy-msg").textContent = m; setTimeout(() => $("copy-msg").textContent = "", 2500); };
+    const sel = () => { const r = document.createRange(); r.selectNodeContents(no); const s = getSelection(); s.removeAllRanges(); s.addRange(r); say("Đã chọn số tài khoản, bấm Ctrl/⌘ + C để sao chép"); };
+    navigator.clipboard ? navigator.clipboard.writeText(g.no).then(() => say("Đã sao chép số tài khoản " + g.no), sel) : sel();
+  });
+  c.append(el("h3",null,g.title), qr, dl, btn); $("gifts").append(c);
+});
+
+// Modal & lightbox
+document.querySelectorAll("[data-open]").forEach(b => b.addEventListener("click", () => { $(b.dataset.open).hidden = false; }));
+document.querySelectorAll(".modal,.lb").forEach(m => m.addEventListener("click", e => { if (e.target === m || e.target.hasAttribute("data-close")) m.hidden = true; }));
+document.addEventListener("keydown", e => { if (e.key === "Escape") document.querySelectorAll(".modal,.lb").forEach(m => m.hidden = true); });
+
+// Lưu dữ liệu qua Google Apps Script
+async function send(payload){
+  if (!CONFIG.apiUrl) throw new Error("noapi");
+  const r = await fetch(CONFIG.apiUrl, { method: "POST", headers: { "Content-Type": "text/plain;charset=utf-8" }, body: JSON.stringify(payload) });
+  const j = await r.json(); if (!j.ok) throw new Error("fail"); return j;
+}
+function renderWishes(list){
+  const box = $("wishes"); box.textContent = "";
+  list.forEach(w => { const d = el("div","wish"); d.append(el("b",null,w.name), el("p",null,w.message)); box.append(d); });
+  box.hidden = !list.length; $("wishes-empty").hidden = !!list.length;
+}
+let WISHES = [], fwTimer = null, fwIdx = 0, fwOff = false;
+function cycleWish(){
+  const box = $("float-wish");
+  if (fwOff || !WISHES.length) { box.hidden = true; return; }
+  box.hidden = false; box.classList.add("out");
+  setTimeout(() => {
+    const w = WISHES[fwIdx % WISHES.length]; fwIdx++;
+    $("fw-name").textContent = w.name; $("fw-msg").textContent = w.message;
+    box.classList.remove("out");
+  }, 500);
+}
+function startFloat(){ if (fwTimer || fwOff) return; cycleWish(); fwTimer = setInterval(cycleWish, 5000); }
+$("fw-close").addEventListener("click", () => { fwOff = true; clearInterval(fwTimer); $("float-wish").hidden = true; });
+async function loadWishes(){
+  if (!CONFIG.apiUrl) return;
+  try {
+    const r = await fetch(CONFIG.apiUrl + "?action=wishes&t=" + Date.now());
+    const j = await r.json();
+    WISHES = (j.wishes || []).reverse();
+    renderWishes(WISHES); fwIdx = 0; startFloat();
+  } catch (e) { console.warn("Không tải được lời chúc", e); }
+}
+loadWishes();
+
+$("wish-form").addEventListener("submit", async e => {
+  e.preventDefault(); const f = e.target, m = $("wish-msg"), btn = f.querySelector("button");
+  const data = { type: "wish", name: f.name.value.trim(), message: f.message.value.trim() };
+  btn.disabled = true; m.textContent = "Đang gửi...";
+  try { await send(data); m.textContent = "Cảm ơn bạn! Lời chúc đã được gửi."; f.reset(); WISHES.unshift(data); renderWishes(WISHES); fwIdx = 0; startFloat(); setTimeout(loadWishes, 1500); }
+  catch (err) { m.textContent = err.message === "noapi" ? "Sổ lưu bút chưa được kết nối. Vui lòng thử lại sau." : "Chưa gửi được, bạn kiểm tra mạng rồi thử lại nhé."; }
+  btn.disabled = false;
+});
+$("rsvp-form").addEventListener("submit", async e => {
+  e.preventDefault(); const f = e.target, m = $("rsvp-msg"), btn = f.querySelector("button");
+  const data = { type: "rsvp", name: f.name.value.trim(), phone: f.phone.value.trim(), side: f.side.value, count: f.count.value, attend: f.attend.value, note: f.note.value.trim() };
+  btn.disabled = true; m.textContent = "Đang gửi...";
+  try { await send(data); m.textContent = "Cảm ơn bạn đã xác nhận!"; f.reset(); setTimeout(() => $("rsvp-modal").hidden = true, 1500); }
+  catch (err) { m.textContent = err.message === "noapi" ? "Form xác nhận chưa được kết nối. Vui lòng thử lại sau." : "Chưa gửi được, bạn kiểm tra mạng rồi thử lại nhé."; }
+  btn.disabled = false;
+});
+}
+boot();
+</script>
+</body>
+</html>

@@ -3,7 +3,7 @@
 Trang thiệp cưới online làm cho bạn của chủ repo. Trang tĩnh (HTML/CSS/JS thuần, không framework, không bước build).
 Nội dung tách khỏi code: bạn cô dâu/chú rể tự sửa qua Pages CMS, không cần đụng code.
 
-**Code (giao diện + JS) KHÔNG nằm ở repo này** mà ở repo dùng chung `zbking111/wedding-engine` (thư mục local `~/Downloads/wedding-engine`,
+**Code (giao diện + JS) KHÔNG nằm ở repo này** mà ở repo dùng chung `zbking111/wedding-engine` (thư mục local `~/project_code/wedding/wedding-engine`,
 phục vụ tại https://wedding-engine.hpwd.workers.dev/v1/). Repo này chỉ có vỏ HTML + nội dung. Sửa giao diện/tính năng → sửa engine
 (áp dụng cho mọi cặp đôi, xem CLAUDE.md của engine).
 
@@ -12,7 +12,7 @@ phục vụ tại https://wedding-engine.hpwd.workers.dev/v1/). Repo này chỉ 
 Pages CMS (sửa nội dung) ─┐
 git push (sửa code) ──────┴─> GitHub `zbking111/wedding` (nhánh `main`) ─> Cloudflare Worker tự deploy (~30s–2 phút)
 
-- Repo: https://github.com/zbking111/wedding (**public**), nhánh `main`. Thư mục local: `~/Downloads/wedding-site`.
+- Repo: https://github.com/zbking111/wedding (**public**), nhánh `main`. Thư mục local: `~/project_code/wedding/wedding-truong_gam`.
 - Hosting: Cloudflare **Worker** (static assets, nối Git) tên `gamtruong27122026wedding`, tài khoản Cloudflare nguyenzuanbka@…
   - Link: https://gamtruong27122026wedding.hpwd.workers.dev/ (subdomain tài khoản đã đổi thành `hpwd`; không bỏ được phần này).
   - Không có build: phục vụ thẳng file ở gốc repo. Kiểm tra deploy ở Workers & Pages → project → Versions.
@@ -70,7 +70,7 @@ Mục rỗng (album, chuyện tình yêu, phù dâu phù rể, sự kiện) tự
 
 ## Quy ước
 
-- Sửa giao diện/tính năng: làm ở `~/Downloads/wedding-engine` (quy tắc trong CLAUDE.md của engine), không thêm code vào repo này.
+- Sửa giao diện/tính năng: làm ở `~/project_code/wedding/wedding-engine` (quy tắc trong CLAUDE.md của engine), không thêm code vào repo này.
 - Thêm trường mới vào site.json (do engine hỗ trợ) → thêm field tương ứng vào `.pages.yml` ở đây.
 - Thử trang với engine bản đang sửa trên máy: chạy engine ở cổng 8001, rồi chạy repo này ở 8000 với vỏ tạm trỏ tới
   `http://127.0.0.1:8001/v1/` (không commit vỏ tạm).

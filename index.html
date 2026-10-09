@@ -9,6 +9,15 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Dancing+Script:wght@600;700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap">
+<script>
+/* ?lang=ja (hoặc jp) → giao diện tiếng Nhật; mặc định tiếng Việt, không tải thêm gì */
+if (/^(ja|jp)$/i.test(new URLSearchParams(location.search).get("lang") || "")) {
+  document.documentElement.lang = "ja";
+  const l = document.createElement("link"); l.rel = "stylesheet";
+  l.href = "https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;600&family=Noto+Serif+JP:wght@500;600&display=swap";
+  document.head.append(l);
+}
+</script>
 <style>
 /* Layout: một cột dọc kiểu thiệp online — thanh trên cố định, hero ảnh lớn, 3 nút hành động, rồi các mục nối tiếp. Một theme sáng cố ý. */
 :root{
@@ -252,6 +261,10 @@ section.soft{background:var(--bg-soft)}
 .invite{position:fixed;inset:0;z-index:80;background:var(--bg-soft);overflow-y:auto;display:flex;justify-content:center;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px));transition:opacity .6s ease,transform .6s ease}
 .invite.leaving{opacity:0;transform:translateY(-24px);pointer-events:none}
 .invite.closed{display:none}
+/* Tiếng Nhật (?lang=ja) */
+html[lang="ja"]{--f-body:"Be Vietnam Pro","Noto Sans JP",system-ui,sans-serif;--f-display:"Cormorant Garamond","Noto Serif JP",serif;--f-script:"Dancing Script","Noto Serif JP",serif}
+html[lang="ja"] body{line-break:strict}
+html[lang="ja"] .iv-kicker,html[lang="ja"] .iv-place-k{letter-spacing:.16em}
 .iv-card{position:relative;width:100%;max-width:460px;margin:auto;background:#fff;padding:44px 28px 36px;text-align:center;box-shadow:0 24px 60px -30px rgba(107,31,40,.45);animation:ivIn .9s cubic-bezier(.2,.7,.2,1) both}
 .iv-card::before{content:"";position:absolute;inset:10px;border:1px solid var(--line);pointer-events:none}
 .iv-card::after{content:"";position:absolute;inset:15px;border:1px solid rgba(184,147,90,.35);pointer-events:none}
@@ -304,24 +317,24 @@ footer p{margin:4px 0;opacity:.85;font-size:14px}
 </head>
 <body>
 
-<div class="invite" id="invite" role="dialog" aria-modal="true" aria-label="Thiệp mời">
+<div class="invite" id="invite" role="dialog" aria-modal="true" aria-label="Thiệp mời" data-ja-aria="招待状">
   <div class="iv-card">
-    <p class="iv-title">Thiệp mời</p>
-    <p class="iv-kicker">Trân trọng kính mời</p>
+    <p class="iv-title" data-ja="招待状">Thiệp mời</p>
+    <p class="iv-kicker" data-ja="謹んでご案内申し上げます">Trân trọng kính mời</p>
     <p class="iv-guest" id="iv-guest">Quý khách</p>
-    <p class="iv-text">Tới dự bữa tiệc chung vui cùng gia đình chúng tôi nhân ngày thành hôn của</p>
+    <p class="iv-text" data-ja="このたび私たちは結婚式を挙げることとなりました。ささやかではございますが、ぜひご出席いただきたくご案内申し上げます。">Tới dự bữa tiệc chung vui cùng gia đình chúng tôi nhân ngày thành hôn của</p>
     <p class="iv-names"><span id="iv-n1"></span>&amp;<span id="iv-n2"></span></p>
     <div class="iv-rule"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="9" cy="14" r="5"/><circle cx="15" cy="14" r="5"/><path d="M8 6l1-2h0l1 2M14 6l1-2 1 2"/></svg></i></div>
     <div class="iv-month" id="iv-month"></div>
     <div class="iv-date"><span id="iv-time"></span><b id="iv-day"></b><span id="iv-dow"></span></div>
     <div class="iv-year" id="iv-year"></div>
     <p class="iv-lunar" id="iv-lunar"></p>
-    <p class="iv-place-k">Địa điểm</p>
+    <p class="iv-place-k" data-ja="会場">Địa điểm</p>
     <p class="iv-place" id="iv-place"></p>
     <p class="iv-addr" id="iv-addr"></p>
     <div class="iv-actions">
-      <button class="btn iv-open" id="iv-open" type="button">Mở thiệp</button>
-      <a class="btn ghost sm" id="iv-map" target="_blank" rel="noopener">Chỉ đường</a>
+      <button class="btn iv-open" id="iv-open" type="button" data-ja="招待状を開く">Mở thiệp</button>
+      <a class="btn ghost sm" id="iv-map" target="_blank" rel="noopener" data-ja="地図を見る">Chỉ đường</a>
     </div>
   </div>
 </div>
@@ -329,8 +342,8 @@ footer p{margin:4px 0;opacity:.85;font-size:14px}
 <div class="topbar">
   <div class="wrap">
     <div class="mono" id="mono"></div>
-    <div class="status"><b id="top-date"></b><span class="pill">Sắp kết hôn</span>
-      <button class="music" id="invite-back" type="button" aria-label="Xem lại thiệp mời" title="Xem lại thiệp mời" hidden>
+    <div class="status"><b id="top-date"></b><span class="pill" data-ja="もうすぐ結婚します">Sắp kết hôn</span>
+      <button class="music" id="invite-back" type="button" aria-label="Xem lại thiệp mời" title="Xem lại thiệp mời" data-ja-aria="招待状をもう一度見る" hidden>
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>
       </button>
     </div>
@@ -338,38 +351,38 @@ footer p{margin:4px 0;opacity:.85;font-size:14px}
 </div>
 
 <header class="hero" id="hero">
-  <div class="ph-label" id="hero-ph">Ảnh bìa</div>
+  <div class="ph-label" id="hero-ph" data-ja="カバー写真">Ảnh bìa</div>
   <div class="hero-text">
     <div class="save">Save the date</div>
     <h1><span class="g" id="h-groom"></span><span>&amp;</span><span class="g" id="h-bride"></span></h1>
     <div class="d" id="hero-date"></div>
     <div class="countdown">
-      <div class="cd"><b id="cd-d">--</b><span>Ngày</span></div>
-      <div class="cd"><b id="cd-h">--</b><span>Giờ</span></div>
-      <div class="cd"><b id="cd-m">--</b><span>Phút</span></div>
-      <div class="cd"><b id="cd-s">--</b><span>Giây</span></div>
+      <div class="cd"><b id="cd-d">--</b><span data-ja="日">Ngày</span></div>
+      <div class="cd"><b id="cd-h">--</b><span data-ja="時間">Giờ</span></div>
+      <div class="cd"><b id="cd-m">--</b><span data-ja="分">Phút</span></div>
+      <div class="cd"><b id="cd-s">--</b><span data-ja="秒">Giây</span></div>
     </div>
   </div>
 </header>
 
 <div class="wrap">
-  <nav class="actions" aria-label="Hành động nhanh">
-    <a class="act" id="act-wish" href="#luu-but"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>Gửi lời chúc</a>
-    <button class="act" id="act-rsvp" type="button" data-open="rsvp-modal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>Xác nhận tham dự</button>
-    <button class="act" id="act-gift" type="button" data-open="gift-modal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M12 8v13M3 12h18M12 8S9 3 7 4s0 4 5 4c5 0 7-3 5-4s-5 4-5 4"/></svg>Mừng cưới</button>
+  <nav class="actions" aria-label="Hành động nhanh" data-ja-aria="クイックメニュー">
+    <a class="act" id="act-wish" href="#luu-but"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span data-ja="お祝いメッセージ">Gửi lời chúc</span></a>
+    <button class="act" id="act-rsvp" type="button" data-open="rsvp-modal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg><span data-ja="出欠のご返信">Xác nhận tham dự</span></button>
+    <button class="act" id="act-gift" type="button" data-open="gift-modal"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M12 8v13M3 12h18M12 8S9 3 7 4s0 4 5 4c5 0 7-3 5-4s-5 4-5 4"/></svg><span data-ja="ご祝儀">Mừng cưới</span></button>
   </nav>
 </div>
 
 <section id="video">
   <div class="wrap">
-    <div class="head"><h2>Video Cưới</h2><p id="video-quote"></p></div>
+    <div class="head"><h2 data-ja="ウェディングムービー">Video Cưới</h2><p id="video-quote"></p></div>
     <div id="video-box"></div>
   </div>
 </section>
 
 <section class="soft" id="album">
   <div class="wrap">
-    <div class="head"><h2>Album Hình Cưới</h2><p id="album-quote"></p></div>
+    <div class="head"><h2 data-ja="ウェディングフォト">Album Hình Cưới</h2><p id="album-quote"></p></div>
     <div class="album" id="album-grid"></div>
     <div class="center" style="margin-top:18px"><button class="btn ghost" id="album-all" type="button">Tất cả hình ảnh</button></div>
   </div>
@@ -387,14 +400,14 @@ footer p{margin:4px 0;opacity:.85;font-size:14px}
 
 <section id="chuyen-tinh" class="soft">
   <div class="wrap">
-    <div class="head"><h2>Chuyện Tình Yêu</h2><p id="story-quote"></p></div>
+    <div class="head"><h2 data-ja="ふたりの物語">Chuyện Tình Yêu</h2><p id="story-quote"></p></div>
     <div class="story" id="story"></div>
   </div>
 </section>
 
 <section id="loi-ngo">
   <div class="wrap">
-    <div class="head"><h2>Lời Ngỏ</h2></div>
+    <div class="head"><h2 data-ja="ご挨拶">Lời Ngỏ</h2></div>
     <div class="letter"><div id="letter-body"></div>
       <p id="letter-sign" style="font-family:var(--f-script);font-size:26px;color:var(--wine);margin-top:16px"></p></div>
     <div class="letter-photo" id="letter-photo" hidden></div>
@@ -403,28 +416,28 @@ footer p{margin:4px 0;opacity:.85;font-size:14px}
 
 <section class="soft" id="su-kien">
   <div class="wrap">
-    <div class="head"><h2>Sự Kiện Cưới</h2><p>Sự hiện diện của bạn là niềm vinh hạnh của gia đình chúng mình.</p></div>
+    <div class="head"><h2 data-ja="ウェディングスケジュール">Sự Kiện Cưới</h2><p data-ja="皆様のご出席を心よりお待ちしております。">Sự hiện diện của bạn là niềm vinh hạnh của gia đình chúng mình.</p></div>
     <div class="events" id="events"></div>
   </div>
 </section>
 
 <section id="co-dau-chu-re">
   <div class="wrap">
-    <div class="head"><h2>Cô Dâu &amp; Chú Rể</h2></div>
+    <div class="head"><h2 data-ja="新郎新婦">Cô Dâu &amp; Chú Rể</h2></div>
     <div class="couple" id="couple"></div>
   </div>
 </section>
 
 <section class="soft" id="phu-dau-phu-re">
   <div class="wrap">
-    <div class="head"><h2>Phù Dâu &amp; Phù Rể</h2><p>Những người bạn thân thiết đồng hành cùng chúng mình.</p></div>
+    <div class="head"><h2 data-ja="ブライズメイド &amp; グルームズマン">Phù Dâu &amp; Phù Rể</h2><p data-ja="私たちを支えてくれる大切な友人たちです。">Những người bạn thân thiết đồng hành cùng chúng mình.</p></div>
     <div class="party" id="party"></div>
   </div>
 </section>
 
 <section id="mung-cuoi">
   <div class="wrap">
-    <div class="head"><h2>Hộp Mừng Cưới</h2><p>Cảm ơn tình cảm của bạn dành cho chúng mình.</p></div>
+    <div class="head"><h2 data-ja="ご祝儀">Hộp Mừng Cưới</h2><p data-ja="温かいお気持ちに心より感謝申し上げます。">Cảm ơn tình cảm của bạn dành cho chúng mình.</p></div>
     <div class="gifts" id="gifts"></div>
     <p class="msg center" id="copy-msg" role="status" style="margin-top:12px"></p>
   </div>
@@ -432,41 +445,41 @@ footer p{margin:4px 0;opacity:.85;font-size:14px}
 
 <section class="soft" id="luu-but">
   <div class="wrap">
-    <div class="head"><h2>Sổ Lưu Bút</h2><p>Gửi lời chúc phúc đến cô dâu và chú rể.</p></div>
+    <div class="head"><h2 data-ja="ゲストブック">Sổ Lưu Bút</h2><p data-ja="新郎新婦へお祝いのメッセージをお寄せください。">Gửi lời chúc phúc đến cô dâu và chú rể.</p></div>
     <form class="form" id="wish-form">
-      <label for="w-name">Tên của bạn<input id="w-name" name="name" required maxlength="60" placeholder="Nguyễn Văn A"></label>
-      <label for="w-msg">Lời chúc<textarea id="w-msg" name="message" required maxlength="500" placeholder="Chúc hai bạn trăm năm hạnh phúc..."></textarea></label>
-      <button class="sugg-toggle" id="sugg-toggle" type="button" aria-expanded="false">Gợi ý lời chúc</button>
+      <label for="w-name"><span data-ja="お名前">Tên của bạn</span><input id="w-name" name="name" required maxlength="60" placeholder="Nguyễn Văn A" data-ja-ph="山田 太郎"></label>
+      <label for="w-msg"><span data-ja="メッセージ">Lời chúc</span><textarea id="w-msg" name="message" required maxlength="500" placeholder="Chúc hai bạn trăm năm hạnh phúc..." data-ja-ph="お二人の末永いお幸せをお祈りしています…"></textarea></label>
+      <button class="sugg-toggle" id="sugg-toggle" type="button" aria-expanded="false" data-ja="メッセージ例を見る">Gợi ý lời chúc</button>
       <div class="sugg" id="sugg" hidden></div>
-      <button class="btn" type="submit">Gửi lời chúc</button>
+      <button class="btn" type="submit" data-ja="メッセージを送る">Gửi lời chúc</button>
       <p class="msg" id="wish-msg" role="status"></p>
     </form>
     <div class="wishes" id="wishes" hidden></div>
-    <div class="empty" id="wishes-empty">Chưa có lời chúc nào. Hãy là người đầu tiên gửi lời chúc cho cô dâu chú rể.</div>
+    <div class="empty" id="wishes-empty" data-ja="まだメッセージはありません。最初のお祝いメッセージをお寄せください。">Chưa có lời chúc nào. Hãy là người đầu tiên gửi lời chúc cho cô dâu chú rể.</div>
   </div>
 </section>
 
 <footer>
   <div class="n" id="foot-names"></div>
-  <p>Cảm ơn bạn đã là một phần trong câu chuyện của chúng mình.</p>
+  <p data-ja="私たちの物語の一部になってくださり、ありがとうございます。">Cảm ơn bạn đã là một phần trong câu chuyện của chúng mình.</p>
   <p id="foot-date"></p>
 </footer>
 
 <!-- Modal xác nhận tham dự -->
 <div class="modal" id="rsvp-modal" hidden role="dialog" aria-modal="true" aria-labelledby="rsvp-title">
   <div class="sheet">
-    <button class="x" type="button" data-close aria-label="Đóng">×</button>
-    <h3 id="rsvp-title">Xác nhận tham dự</h3>
+    <button class="x" type="button" data-close aria-label="Đóng" data-ja-aria="閉じる">×</button>
+    <h3 id="rsvp-title" data-ja="出欠のご返信">Xác nhận tham dự</h3>
     <form class="form" id="rsvp-form" style="border:0;padding:0">
-      <label for="r-name">Họ và tên<input id="r-name" name="name" required maxlength="60"></label>
-      <label for="r-phone">Số điện thoại<input id="r-phone" name="phone" inputmode="tel" maxlength="20"></label>
+      <label for="r-name"><span data-ja="お名前">Họ và tên</span><input id="r-name" name="name" required maxlength="60"></label>
+      <label for="r-phone"><span data-ja="電話番号">Số điện thoại</span><input id="r-phone" name="phone" inputmode="tel" maxlength="20"></label>
       <div class="row2">
-        <label for="r-side">Bạn là khách của<select id="r-side" name="side"><option>Nhà trai</option><option>Nhà gái</option><option>Cả hai</option></select></label>
-        <label for="r-count">Số người<select id="r-count" name="count"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></label>
+        <label for="r-side"><span data-ja="どちらのゲストですか">Bạn là khách của</span><select id="r-side" name="side"><option value="Nhà trai" data-ja="新郎側">Nhà trai</option><option value="Nhà gái" data-ja="新婦側">Nhà gái</option><option value="Cả hai" data-ja="両方">Cả hai</option></select></label>
+        <label for="r-count"><span data-ja="人数">Số người</span><select id="r-count" name="count"><option>1</option><option>2</option><option>3</option><option>4</option><option>5+</option></select></label>
       </div>
-      <label for="r-attend">Bạn sẽ tham dự chứ?<select id="r-attend" name="attend"><option>Có, mình sẽ đến</option><option>Rất tiếc, mình không đến được</option></select></label>
-      <label for="r-note">Lời nhắn (không bắt buộc)<textarea id="r-note" name="note" maxlength="300" style="min-height:70px"></textarea></label>
-      <button class="btn" type="submit">Gửi xác nhận</button>
+      <label for="r-attend"><span data-ja="ご出欠">Bạn sẽ tham dự chứ?</span><select id="r-attend" name="attend"><option value="Có, mình sẽ đến" data-ja="喜んで出席いたします">Có, mình sẽ đến</option><option value="Rất tiếc, mình không đến được" data-ja="残念ながら欠席いたします">Rất tiếc, mình không đến được</option></select></label>
+      <label for="r-note"><span data-ja="メッセージ（任意）">Lời nhắn (không bắt buộc)</span><textarea id="r-note" name="note" maxlength="300" style="min-height:70px"></textarea></label>
+      <button class="btn" type="submit" data-ja="返信する">Gửi xác nhận</button>
       <p class="msg" id="rsvp-msg" role="status"></p>
     </form>
   </div>
@@ -475,8 +488,8 @@ footer p{margin:4px 0;opacity:.85;font-size:14px}
 <!-- Modal mừng cưới -->
 <div class="modal" id="gift-modal" hidden role="dialog" aria-modal="true" aria-labelledby="gift-title">
   <div class="sheet wide">
-    <button class="x" type="button" data-close aria-label="Đóng">×</button>
-    <h3 id="gift-title">Mừng cưới</h3>
+    <button class="x" type="button" data-close aria-label="Đóng" data-ja-aria="閉じる">×</button>
+    <h3 id="gift-title" data-ja="ご祝儀">Mừng cưới</h3>
     <div class="gifts" id="gifts-modal"></div>
     <p class="msg center" id="copy-msg-modal" role="status" style="margin-top:12px"></p>
   </div>
@@ -484,59 +497,71 @@ footer p{margin:4px 0;opacity:.85;font-size:14px}
 
 <!-- Menu nổi -->
 <div class="fab" id="fab">
-  <button class="fab-main" id="fab-main" type="button" aria-expanded="false" aria-label="Mở menu nhanh"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
-  <a class="fab-item" id="fab-wish" href="#luu-but"><span>Gửi lời chúc</span><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></i></a>
-  <button class="fab-item" id="fab-rsvp" type="button" data-open="rsvp-modal"><span>Xác nhận tham dự</span><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></i></button>
-  <button class="fab-item" id="fab-gift" type="button" data-open="gift-modal"><span>Mừng cưới</span><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M12 8v13M3 12h18M12 8S9 3 7 4s0 4 5 4c5 0 7-3 5-4s-5 4-5 4"/></svg></i></button>
-  <button class="fab-item" id="fab-invite" type="button" hidden><span>Xem thiệp mời</span><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></i></button>
+  <button class="fab-main" id="fab-main" type="button" aria-expanded="false" aria-label="Mở menu nhanh" data-ja-aria="メニューを開く"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+  <a class="fab-item" id="fab-wish" href="#luu-but"><span data-ja="お祝いメッセージ">Gửi lời chúc</span><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></i></a>
+  <button class="fab-item" id="fab-rsvp" type="button" data-open="rsvp-modal"><span data-ja="出欠のご返信">Xác nhận tham dự</span><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></i></button>
+  <button class="fab-item" id="fab-gift" type="button" data-open="gift-modal"><span data-ja="ご祝儀">Mừng cưới</span><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="8" width="18" height="13" rx="1"/><path d="M12 8v13M3 12h18M12 8S9 3 7 4s0 4 5 4c5 0 7-3 5-4s-5 4-5 4"/></svg></i></button>
+  <button class="fab-item" id="fab-invite" type="button" hidden><span data-ja="招待状を見る">Xem thiệp mời</span><i><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg></i></button>
 </div>
 
-<div class="gv" id="gv" hidden role="dialog" aria-modal="true" aria-label="Xem ảnh cưới">
+<div class="gv" id="gv" hidden role="dialog" aria-modal="true" aria-label="Xem ảnh cưới" data-ja-aria="写真を見る">
   <div class="gv-top">
     <span class="gv-count" id="gv-count"></span>
     <div class="gv-tools">
-      <button class="gv-btn" id="gv-play" type="button" aria-label="Tự động chuyển ảnh"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="7 4 19 12 7 20 7 4"/></svg></button>
-      <button class="gv-btn" id="gv-zoom" type="button" aria-label="Phóng to"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg></button>
-      <button class="gv-btn" id="gv-full" type="button" aria-label="Toàn màn hình"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
-      <button class="gv-btn" id="gv-close" type="button" aria-label="Đóng"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+      <button class="gv-btn" id="gv-play" type="button" aria-label="Tự động chuyển ảnh" data-ja-aria="スライドショー"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polygon points="7 4 19 12 7 20 7 4"/></svg></button>
+      <button class="gv-btn" id="gv-zoom" type="button" aria-label="Phóng to" data-ja-aria="拡大"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3M11 8v6M8 11h6"/></svg></button>
+      <button class="gv-btn" id="gv-full" type="button" aria-label="Toàn màn hình" data-ja-aria="全画面"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5"/></svg></button>
+      <button class="gv-btn" id="gv-close" type="button" aria-label="Đóng" data-ja-aria="閉じる"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
     </div>
     <div class="gv-bar" id="gv-bar"></div>
   </div>
   <div class="gv-stage" id="gv-stage">
-    <button class="gv-nav gv-prev" id="gv-prev" type="button" aria-label="Ảnh trước"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
+    <button class="gv-nav gv-prev" id="gv-prev" type="button" aria-label="Ảnh trước" data-ja-aria="前の写真"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg></button>
     <img class="gv-img" id="gv-img" alt="" draggable="false">
-    <button class="gv-nav gv-next" id="gv-next" type="button" aria-label="Ảnh sau"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
+    <button class="gv-nav gv-next" id="gv-next" type="button" aria-label="Ảnh sau" data-ja-aria="次の写真"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg></button>
   </div>
   <p class="gv-cap" id="gv-cap"></p>
   <div class="gv-thumbs" id="gv-thumbs"></div>
 </div>
 
-<button class="music music-float" id="music" type="button" aria-label="Bật/tắt nhạc nền" hidden>
+<button class="music music-float" id="music" type="button" aria-label="Bật/tắt nhạc nền" data-ja-aria="BGMのオン／オフ" hidden>
   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 18V5l12-2v13"/><circle cx="6" cy="18" r="3"/><circle cx="18" cy="16" r="3"/></svg>
 </button>
 
 <div class="float-wish out" id="float-wish" hidden aria-live="polite">
   <div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M7 9h10M7 13h10M9 17h6"/></svg></div>
   <div class="tx"><b id="fw-name"></b><p id="fw-msg"></p></div>
-  <button class="fx" type="button" id="fw-close" aria-label="Ẩn lời chúc"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+  <button class="fx" type="button" id="fw-close" aria-label="Ẩn lời chúc" data-ja-aria="メッセージを閉じる"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
 </div>
 
 <audio id="bgm" loop preload="none"></audio>
 
 <script>
 /* Nội dung trang nằm ở content/site.json — sửa qua Pages CMS, không cần sửa file này. */
+const JA = document.documentElement.lang === "ja", L = (vi, ja) => JA ? ja : vi;
+// Ghép bản dịch lên dữ liệu gốc: mảng ghép theo vị trí, chuỗi rỗng giữ bản tiếng Việt
+const merge = (a, b) => Array.isArray(a) ? a.map((x, i) => Array.isArray(b) && i < b.length ? merge(x, b[i]) : x)
+  : a && typeof a === "object" ? Object.keys(b && typeof b === "object" ? b : {}).reduce((o, k) => (o[k] = k in a ? merge(a[k], b[k]) : b[k], o), { ...a })
+  : (b == null || b === "" ? a : b);
 async function boot(){
-let S;
-try { S = await (await fetch("content/site.json?v=" + Date.now(), { cache: "no-store" })).json(); }
-catch (e) { document.body.insertAdjacentHTML("afterbegin", '<p style="padding:16px;text-align:center">Không tải được nội dung trang. Vui lòng tải lại.</p>'); return; }
+let S, SVI, SJA = {};
+try { S = SVI = await (await fetch("content/site.json?v=" + Date.now(), { cache: "no-store" })).json(); }
+catch (e) { document.body.insertAdjacentHTML("afterbegin", '<p style="padding:16px;text-align:center">' + L("Không tải được nội dung trang. Vui lòng tải lại.", "ページを読み込めませんでした。再読み込みしてください。") + '</p>'); return; }
+if (JA) {
+  try { SJA = await (await fetch("content/site.ja.json?v=" + Date.now(), { cache: "no-store" })).json(); S = merge(SVI, SJA); } catch (e) { S = { ...SVI }; }
+  delete S.lunarText;
+  document.querySelectorAll("[data-ja]").forEach(e => e.textContent = e.dataset.ja);
+  document.querySelectorAll("[data-ja-ph]").forEach(e => e.placeholder = e.dataset.jaPh);
+  document.querySelectorAll("[data-ja-aria]").forEach(e => { e.setAttribute("aria-label", e.dataset.jaAria); if (e.title) e.title = e.dataset.jaAria; });
+}
 const CONFIG = {
   start: S.weddingDate + "T" + (S.weddingTime || "11:00") + ":00+07:00",
   heroPhoto: S.heroPhoto || "", music: S.music || "/media/images/ngay-cuoi.mp3", youtubeId: S.youtubeId || "", apiUrl: S.apiUrl || "",
   photos: (S.photos || []).filter(Boolean),
   events: S.events || [],
   couple: [
-    { role: "Chú rể", name: S.groomName, photo: S.groom?.photo || "", bio: S.groom?.bio || "", father: S.groom?.father || "", mother: S.groom?.mother || "" },
-    { role: "Cô dâu", name: S.brideName, photo: S.bride?.photo || "", bio: S.bride?.bio || "", father: S.bride?.father || "", mother: S.bride?.mother || "" }
+    { role: L("Chú rể", "新郎"), name: S.groomName, photo: S.groom?.photo || "", bio: S.groom?.bio || "", father: S.groom?.father || "", mother: S.groom?.mother || "" },
+    { role: L("Cô dâu", "新婦"), name: S.brideName, photo: S.bride?.photo || "", bio: S.bride?.bio || "", father: S.bride?.father || "", mother: S.bride?.mother || "" }
   ],
   gifts: S.gifts || []
 };
@@ -545,7 +570,10 @@ const NAMES = S.groomName + " & " + S.brideName;
 
 const $ = id => document.getElementById(id);
 const el = (tag, cls, text) => { const e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; };
-const DOW = ["Chủ nhật","Thứ hai","Thứ ba","Thứ tư","Thứ năm","Thứ sáu","Thứ bảy"];
+const DOW = ["Chủ nhật","Thứ hai","Thứ ba","Thứ tư","Thứ năm","Thứ sáu","Thứ bảy"], DOW_JA = "日月火水木金土";
+// "Thứ bảy, 26/12/2026" | "2026年12月26日（土）"
+const fmtDate = (y, m, d) => { const w = new Date(y, m - 1, d).getDay();
+  return JA ? y + "年" + m + "月" + d + "日（" + DOW_JA[w] + "）" : DOW[w] + ", " + String(d).padStart(2, "0") + "/" + String(m).padStart(2, "0") + "/" + y; };
 
 // Chữ & ngày tháng
 const [Y, M, D] = S.weddingDate.split("-").map(Number), p2 = n => String(n).padStart(2, "0");
@@ -554,8 +582,8 @@ $("mono").textContent = S.groomName[0] + " & " + S.brideName[0];
 $("top-date").textContent = p2(D) + "/" + p2(M);
 $("h-groom").textContent = S.groomName; $("h-bride").textContent = S.brideName;
 $("hero-date").textContent = $("foot-date").textContent = p2(D) + " . " + p2(M) + " . " + Y;
-$("cal-title").textContent = "Tháng " + M + " · " + Y;
-$("cal-foot").textContent = DOW[new Date(Y, M - 1, D).getDay()] + ", " + p2(D) + "/" + p2(M) + "/" + Y + (S.lunarText ? " · " + S.lunarText : "");
+$("cal-title").textContent = L("Tháng " + M + " · " + Y, Y + "年" + M + "月");
+$("cal-foot").textContent = fmtDate(Y, M, D) + (S.lunarText ? " · " + S.lunarText : "");
 $("foot-names").textContent = $("letter-sign").textContent = NAMES;
 $("video-quote").textContent = S.videoQuote || ""; $("album-quote").textContent = S.albumQuote || "";
 (S.letter || "").split(/\n\s*\n/).filter(t => t.trim()).forEach(t => $("letter-body").append(el("p", null, t.trim())));
@@ -586,14 +614,14 @@ if (CONFIG.music) {
 // Video: nhúng khi chạy trên web riêng, mở link khi xem trong khung
 (function(){
   const box = $("video-box"), id = CONFIG.youtubeId;
-  if (!id) { const d = el("div", "video"); d.append(Object.assign(el("div","play"), { innerHTML: '<i><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></i>Video cưới sẽ được cập nhật' })); box.append(d); return; }
+  if (!id) { const d = el("div", "video"); d.append(Object.assign(el("div","play"), { innerHTML: '<i><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></i>' + L("Video cưới sẽ được cập nhật", "ウェディングムービーは近日公開予定です") })); box.append(d); return; }
   if (window.self === window.top) {
-    const d = el("div","video"), f = el("iframe"); f.src = "https://www.youtube.com/embed/" + id; f.title = "Video cưới " + NAMES; f.allowFullscreen = true;
+    const d = el("div","video"), f = el("iframe"); f.src = "https://www.youtube.com/embed/" + id; f.title = L("Video cưới ", "ウェディングムービー ") + NAMES; f.allowFullscreen = true;
     f.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"; d.append(f); box.append(d);
   } else {
     const a = el("a","video"); a.href = "https://www.youtube.com/watch?v=" + id; a.target = "_blank"; a.rel = "noopener";
     a.style.background = "#2b2224 center/cover url(https://i.ytimg.com/vi/" + id + "/hqdefault.jpg)";
-    a.innerHTML = '<span class="play"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></i>Xem video trên YouTube</span>'; box.append(a);
+    a.innerHTML = '<span class="play"><i><svg width="26" height="26" viewBox="0 0 24 24" fill="#fff"><path d="M8 5v14l11-7z"/></svg></i>' + L("Xem video trên YouTube", "YouTubeで見る") + '</span>'; box.append(a);
   }
 })();
 
@@ -601,24 +629,24 @@ if (CONFIG.music) {
 const PICS = CONFIG.photos.filter(Boolean);
 const SHOWN = PICS.length > 6 ? 6 : PICS.length;
 if (!PICS.length) {
-  for (let i = 0; i < 6; i++) { const b = el("button", "", "Ảnh " + (i+1)); b.type = "button"; b.style.cursor = "default"; $("album-grid").append(b); }
+  for (let i = 0; i < 6; i++) { const b = el("button", "", L("Ảnh ", "写真 ") + (i+1)); b.type = "button"; b.style.cursor = "default"; $("album-grid").append(b); }
 } else {
   PICS.slice(0, SHOWN).forEach((src, i) => {
-    const b = el("button"); b.type = "button"; b.setAttribute("aria-label", "Xem ảnh " + (i+1));
-    const im = el("img"); im.src = src; im.alt = "Ảnh cưới " + NAMES + " " + (i+1); im.loading = "lazy"; b.append(im);
+    const b = el("button"); b.type = "button"; b.setAttribute("aria-label", L("Xem ảnh ", "写真を見る ") + (i+1));
+    const im = el("img"); im.src = src; im.alt = L("Ảnh cưới ", "ウェディングフォト ") + NAMES + " " + (i+1); im.loading = "lazy"; b.append(im);
     if (i === SHOWN - 1 && PICS.length > SHOWN) { b.classList.add("more-tile"); b.append(el("span", null, "+" + (PICS.length - SHOWN))); }
     b.addEventListener("click", () => openGallery(i));
     $("album-grid").append(b);
   });
 }
 $("album-all").hidden = PICS.length <= 1;
-$("album-all").textContent = "Xem tất cả " + PICS.length + " ảnh";
+$("album-all").textContent = L("Xem tất cả " + PICS.length + " ảnh", "すべての写真を見る（" + PICS.length + "枚）");
 $("album-all").addEventListener("click", () => openGallery(0));
 
 const G = { i: 0, zoom: 1, x: 0, y: 0, timer: null, dur: 3500 };
 const gv = $("gv"), gImg = $("gv-img"), gStage = $("gv-stage");
 PICS.forEach((src, i) => {
-  const t = el("button"); t.type = "button"; t.setAttribute("aria-label", "Ảnh " + (i+1));
+  const t = el("button"); t.type = "button"; t.setAttribute("aria-label", L("Ảnh ", "写真 ") + (i+1));
   const im = el("img"); im.src = src; im.alt = ""; im.loading = "lazy"; t.append(im);
   t.addEventListener("click", () => show(i, i > G.i ? 1 : -1)); $("gv-thumbs").append(t);
 });
@@ -630,7 +658,7 @@ function show(i, dir){
   gImg.classList.remove("from-r", "from-l"); void gImg.offsetWidth;
   if (dir) gImg.classList.add(dir > 0 ? "from-r" : "from-l");
   const src = PICS[G.i], pre = new Image(); pre.src = src;
-  const done = () => { gImg.src = src; gImg.alt = "Ảnh cưới " + NAMES + " " + (G.i+1); requestAnimationFrame(() => gImg.classList.remove("from-r", "from-l")); };
+  const done = () => { gImg.src = src; gImg.alt = L("Ảnh cưới ", "ウェディングフォト ") + NAMES + " " + (G.i+1); requestAnimationFrame(() => gImg.classList.remove("from-r", "from-l")); };
   pre.decode ? pre.decode().then(done, done) : (pre.onload = done);
   $("gv-count").textContent = (G.i + 1) + " / " + PICS.length;
   [...$("gv-thumbs").children].forEach((t, k) => t.classList.toggle("on", k === G.i));
@@ -690,7 +718,7 @@ gStage.addEventListener("pointercancel", () => { P = null; gImg.classList.remove
 // Lịch tháng
 (function(){
   const y = Y, m = M - 1, hit = D;
-  const cal = $("cal"); ["T2","T3","T4","T5","T6","T7","CN"].forEach(t => cal.append(el("div","dow",t)));
+  const cal = $("cal"); (JA ? [..."月火水木金土日"] : ["T2","T3","T4","T5","T6","T7","CN"]).forEach(t => cal.append(el("div","dow",t)));
   const first = (new Date(y, m, 1).getDay() + 6) % 7, days = new Date(y, m+1, 0).getDate();
   for (let i = 0; i < first; i++) cal.append(el("div"));
   for (let d = 1; d <= days; d++) cal.append(el("div", "day" + (d === hit ? " hit" : ""), d));
@@ -701,29 +729,29 @@ const gTime = (date, time, hours) => { const s = new Date(date + "T" + time + ":
   const f = d => d.toISOString().replace(/[-:]/g,"").replace(/\.\d{3}/,""); return f(s) + "/" + f(e); };
 CONFIG.events.forEach(ev => {
   const [yy, mm, dd] = ev.date.split("-").map(Number);
-  const dateTxt = DOW[new Date(yy, mm - 1, dd).getDay()] + ", " + ev.date.split("-").reverse().join("/");
+  const dateTxt = fmtDate(yy, mm, dd);
   const card = el("div","ev reveal"), t = el("div","ev-time"), b = el("div","ev-body");
   t.append(el("b", null, ev.time), el("span", null, dateTxt));
   b.append(el("h3", null, ev.title), el("div","where", ev.place), el("div","addr", ev.addr));
   const btns = el("div","btns");
-  const cal = el("a","btn sm ghost","Thêm vào lịch"); cal.target = "_blank"; cal.rel = "noopener";
+  const cal = el("a","btn sm ghost",L("Thêm vào lịch", "カレンダーに追加")); cal.target = "_blank"; cal.rel = "noopener";
   cal.href = "https://calendar.google.com/calendar/render?action=TEMPLATE&text=" + encodeURIComponent(ev.title + " – " + NAMES) + "&dates=" + gTime(ev.date, ev.time, 2) + "&location=" + encodeURIComponent(ev.place + ", " + ev.addr);
-  const map = el("a","btn sm","Chỉ đường"); map.target = "_blank"; map.rel = "noopener";
+  const map = el("a","btn sm",L("Chỉ đường", "地図を見る")); map.target = "_blank"; map.rel = "noopener";
   map.href = ev.map || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent(ev.place + " " + ev.addr);
   const cols = (ev.colors || []).map(x => typeof x === "string" ? x : x?.color).filter(c => /^#?[0-9a-f]{3,8}$|^[a-z]+$/i.test(c || ""));
-  if (cols.length) { const dc = el("div","dress", "Dress code"); cols.forEach(c => { const i = el("i"); i.style.background = c[0] === "#" || /^[a-z]+$/i.test(c) ? c : "#" + c; i.title = c; dc.append(i); }); b.append(dc); }
+  if (cols.length) { const dc = el("div","dress", L("Dress code", "ドレスコード")); cols.forEach(c => { const i = el("i"); i.style.background = c[0] === "#" || /^[a-z]+$/i.test(c) ? c : "#" + c; i.title = c; dc.append(i); }); b.append(dc); }
   btns.append(cal, map); b.append(btns); card.append(t, b); $("events").append(card);
 });
 
 // Cô dâu chú rể
 CONFIG.couple.forEach(p => {
   const c = el("div","person"), av = el("div","avatar");
-  if (p.photo) { const im = el("img"); im.src = p.photo; im.alt = p.role + " " + p.name; av.append(im); } else av.textContent = "Ảnh " + p.role.toLowerCase();
-  const bio = el("p","bio clamp", p.bio), more = el("button","more","Xem thêm"); more.type = "button";
-  more.addEventListener("click", () => { bio.classList.toggle("clamp"); more.textContent = bio.classList.contains("clamp") ? "Xem thêm" : "Thu gọn"; });
+  if (p.photo) { const im = el("img"); im.src = p.photo; im.alt = p.role + " " + p.name; av.append(im); } else av.textContent = L("Ảnh " + p.role.toLowerCase(), p.role + "の写真");
+  const bio = el("p","bio clamp", p.bio), more = el("button","more",L("Xem thêm", "もっと見る")); more.type = "button";
+  more.addEventListener("click", () => { bio.classList.toggle("clamp"); more.textContent = bio.classList.contains("clamp") ? L("Xem thêm", "もっと見る") : L("Thu gọn", "閉じる"); });
   const par = el("div","parents");
-  if (p.father) { par.append("Con ông "); par.append(el("b", null, p.father)); }
-  if (p.mother) { if (p.father) par.append(el("br")); par.append((p.father ? "và bà " : "Con bà ")); par.append(el("b", null, p.mother)); }
+  if (p.father) { par.append(L("Con ông ", "父　")); par.append(el("b", null, p.father)); }
+  if (p.mother) { if (p.father) par.append(el("br")); par.append(JA ? "母　" : (p.father ? "và bà " : "Con bà ")); par.append(el("b", null, p.mother)); }
   c.append(av, el("div","role",p.role), el("h3",null,p.name)); if (p.father || p.mother) c.append(par);
   if (p.bio) { c.append(bio); if (p.bio.length > 90) c.append(more); }
   $("couple").append(c);
@@ -733,14 +761,14 @@ CONFIG.couple.forEach(p => {
 function renderGifts(box, msgId){
   CONFIG.gifts.forEach(g => {
     const c = el("div","gift"), qr = el("div","qr");
-    if (g.qr) { const im = el("img"); im.src = g.qr; im.alt = "Mã QR " + g.title; qr.append(im); } else qr.textContent = "Mã QR";
+    if (g.qr) { const im = el("img"); im.src = g.qr; im.alt = L("Mã QR ", "QRコード ") + g.title; qr.append(im); } else qr.textContent = L("Mã QR", "QRコード");
     const dl = el("dl"); const no = el("dd", null, g.no);
-    dl.append(el("dt",null,"Ngân hàng"), el("dd",null,g.bank), el("dt",null,"Số tài khoản"), no, el("dt",null,"Chủ tài khoản"), el("dd",null,g.name));
-    const btn = el("button","btn sm","Sao chép số tài khoản"); btn.type = "button";
+    dl.append(el("dt",null,L("Ngân hàng", "銀行名")), el("dd",null,g.bank), el("dt",null,L("Số tài khoản", "口座番号")), no, el("dt",null,L("Chủ tài khoản", "口座名義")), el("dd",null,g.name));
+    const btn = el("button","btn sm",L("Sao chép số tài khoản", "口座番号をコピー")); btn.type = "button";
     btn.addEventListener("click", () => {
       const say = m => { $(msgId).textContent = m; setTimeout(() => $(msgId).textContent = "", 2500); };
-      const sel = () => { const r = document.createRange(); r.selectNodeContents(no); const s = getSelection(); s.removeAllRanges(); s.addRange(r); say("Đã chọn số tài khoản, bấm Ctrl/⌘ + C để sao chép"); };
-      navigator.clipboard ? navigator.clipboard.writeText(g.no).then(() => say("Đã sao chép số tài khoản " + g.no), sel) : sel();
+      const sel = () => { const r = document.createRange(); r.selectNodeContents(no); const s = getSelection(); s.removeAllRanges(); s.addRange(r); say(L("Đã chọn số tài khoản, bấm Ctrl/⌘ + C để sao chép", "口座番号を選択しました。Ctrl/⌘ + C でコピーしてください")); };
+      navigator.clipboard ? navigator.clipboard.writeText(g.no).then(() => say(L("Đã sao chép số tài khoản ", "口座番号をコピーしました：") + g.no), sel) : sel();
     });
     c.append(el("h3",null,g.title), qr, dl, btn); box.append(c);
   });
@@ -760,7 +788,7 @@ $("story-quote").textContent = S.storyQuote || "";
 if (S.letterPhoto) { const im = el("img"); im.src = S.letterPhoto; im.alt = NAMES; im.loading = "lazy"; $("letter-photo").append(im); $("letter-photo").hidden = false; }
 
 // Phù dâu phù rể
-[["Phù dâu", S.bridesmaids], ["Phù rể", S.groomsmen]].forEach(([label, list]) => {
+[[L("Phù dâu", "ブライズメイド"), S.bridesmaids], [L("Phù rể", "グルームズマン"), S.groomsmen]].forEach(([label, list]) => {
   if (!list || !list.length) return;
   const g = el("div"); g.append(el("h3","grp",label)); const row = el("div","party-row");
   list.forEach(m => { const d = el("div","pm"), pic = el("div","pic");
@@ -770,7 +798,13 @@ if (S.letterPhoto) { const im = el("img"); im.src = S.letterPhoto; im.alt = NAME
 });
 
 // Lời chúc gợi ý
-const SUGG = (S.wishSuggestions && S.wishSuggestions.length ? S.wishSuggestions : [
+const SUGG = (JA ? (SJA.wishSuggestions && SJA.wishSuggestions.length ? SJA.wishSuggestions : [
+  "ご結婚おめでとうございます！お二人の末永いお幸せをお祈りしています。",
+  "素敵なご夫婦になってくださいね。心よりお祝い申し上げます。",
+  "お二人の新しい門出に、たくさんの幸せが訪れますように。",
+  "笑顔あふれる温かいご家庭を築いてください。おめでとうございます！",
+  "Happy Wedding! いつまでもお幸せに。"
+]) : S.wishSuggestions && S.wishSuggestions.length ? S.wishSuggestions : [
   "Chúc hai bạn trăm năm hạnh phúc, sớm có tin vui nhé!",
   "Chúc mừng hạnh phúc! Mãi yêu thương và thấu hiểu nhau như ngày đầu.",
   "Chúc cô dâu chú rể bách niên giai lão, đầu bạc răng long.",
@@ -779,7 +813,7 @@ const SUGG = (S.wishSuggestions && S.wishSuggestions.length ? S.wishSuggestions 
   "Happy wedding! Chúc hai bạn luôn vui vẻ và hạnh phúc."
 ]).map(x => typeof x === "string" ? x : x?.text).filter(Boolean);
 SUGG.forEach(t => { const b = el("button", null, t); b.type = "button"; b.addEventListener("click", () => { $("w-msg").value = t; $("w-msg").focus(); }); $("sugg").append(b); });
-$("sugg-toggle").addEventListener("click", e => { const h = $("sugg").hidden = !$("sugg").hidden; e.target.setAttribute("aria-expanded", String(!h)); e.target.textContent = h ? "Gợi ý lời chúc" : "Ẩn gợi ý"; });
+$("sugg-toggle").addEventListener("click", e => { const h = $("sugg").hidden = !$("sugg").hidden; e.target.setAttribute("aria-expanded", String(!h)); e.target.textContent = h ? L("Gợi ý lời chúc", "メッセージ例を見る") : L("Ẩn gợi ý", "メッセージ例を閉じる"); });
 
 // Menu nổi
 const fabSet = o => { $("fab").classList.toggle("open", o); $("fab-main").setAttribute("aria-expanded", String(o)); };
@@ -817,21 +851,24 @@ hide(document.querySelector(".actions").parentElement.id = "acts-wrap", !acts.le
   const guest = (q.get("to") || "").trim().slice(0, 60);
   const side = (q.get("s") || "").toLowerCase().startsWith("g") ? "gai" : (q.get("s") || "").toLowerCase().startsWith("t") ? "trai" : "";
   if (S.sections && S.sections.invite === false && !guest) { $("invite").remove(); return; }
-  if (guest) { $("iv-guest").textContent = guest; $("w-name").value = guest; $("r-name").value = guest; }
+  if (guest) { $("iv-guest").textContent = JA && !/(様|さん|さま|ちゃん|くん)$/.test(guest) ? guest + " 様" : guest; $("w-name").value = guest; $("r-name").value = guest; }
+  else if (JA) $("iv-guest").textContent = "ご来賓の皆様";
   if (side) $("r-side").value = side === "trai" ? "Nhà trai" : "Nhà gái";
   $("iv-n1").textContent = side === "gai" ? S.brideName : S.groomName;
   $("iv-n2").textContent = side === "gai" ? S.groomName : S.brideName;
   // Chọn sự kiện cho thiệp theo nhà trai / nhà gái
   const norm = t => (t || "").toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/g, "d");
-  const evs = CONFIG.events, key = side === "gai" ? "nha gai" : "nha trai";
-  const ofSide = side ? evs.filter(e => e.side ? e.side === side : norm(e.title + " " + e.place).includes(key)) : evs;
-  const pick = ofSide.find(e => e.invite) || ofSide.find(e => norm(e.title).includes("tiec")) || ofSide[ofSide.length - 1]
-            || evs.find(e => e.invite) || evs[evs.length - 1] || { date: S.weddingDate, time: S.weddingTime || "", place: "", addr: "" };
+  // So khớp trên tên sự kiện tiếng Việt gốc (bản tiếng Nhật đã dịch tên), rồi lấy sự kiện cùng vị trí
+  const evs = CONFIG.events, vi = SVI.events || [], key = side === "gai" ? "nha gai" : "nha trai", all = evs.map((_, i) => i);
+  const ofSide = side ? all.filter(i => vi[i]?.side ? vi[i].side === side : norm((vi[i]?.title || "") + " " + (vi[i]?.place || "")).includes(key)) : all;
+  const pi = ofSide.find(i => vi[i]?.invite) ?? ofSide.find(i => norm(vi[i]?.title).includes("tiec")) ?? ofSide[ofSide.length - 1]
+            ?? all.find(i => vi[i]?.invite) ?? all[all.length - 1];
+  const pick = pi != null ? evs[pi] : { date: S.weddingDate, time: S.weddingTime || "", place: "", addr: "" };
   const [yy, mm, dd] = (pick.date || S.weddingDate).split("-").map(Number);
-  $("iv-month").textContent = "Tháng " + mm; $("iv-day").textContent = String(dd).padStart(2, "0"); $("iv-year").textContent = "Năm " + yy;
-  $("iv-time").textContent = (pick.time || "").replace(":", "h");
-  $("iv-dow").textContent = DOW[new Date(yy, mm - 1, dd).getDay()];
-  $("iv-lunar").textContent = pick.lunar ? "(" + pick.lunar + ")" : (pick.date === S.weddingDate && S.lunarText ? "(" + S.lunarText + ")" : "");
+  $("iv-month").textContent = L("Tháng " + mm, mm + "月"); $("iv-day").textContent = String(dd).padStart(2, "0"); $("iv-year").textContent = L("Năm " + yy, yy + "年");
+  $("iv-time").textContent = JA ? pick.time || "" : (pick.time || "").replace(":", "h");
+  $("iv-dow").textContent = JA ? DOW_JA[new Date(yy, mm - 1, dd).getDay()] + "曜日" : DOW[new Date(yy, mm - 1, dd).getDay()];
+  $("iv-lunar").textContent = JA ? "" : pick.lunar ? "(" + pick.lunar + ")" : (pick.date === S.weddingDate && S.lunarText ? "(" + S.lunarText + ")" : "");
   $("iv-place").textContent = pick.place || ""; $("iv-addr").textContent = pick.addr || "";
   $("iv-map").href = pick.map || "https://www.google.com/maps/search/?api=1&query=" + encodeURIComponent((pick.place || "") + " " + (pick.addr || ""));
   if (!pick.place && !pick.addr) $("iv-map").hidden = true;
@@ -913,17 +950,17 @@ loadWishes();
 $("wish-form").addEventListener("submit", async e => {
   e.preventDefault(); const f = e.target, m = $("wish-msg"), btn = f.querySelector("button");
   const data = { type: "wish", name: f.name.value.trim(), message: f.message.value.trim() };
-  btn.disabled = true; m.textContent = "Đang gửi...";
-  try { await send(data); m.textContent = "Cảm ơn bạn! Lời chúc đã được gửi."; f.reset(); WISHES.unshift(data); renderWishes(WISHES); fwIdx = 0; startFloat(); setTimeout(loadWishes, 1500); }
-  catch (err) { m.textContent = err.message === "noapi" ? "Sổ lưu bút chưa được kết nối. Vui lòng thử lại sau." : "Chưa gửi được, bạn kiểm tra mạng rồi thử lại nhé."; }
+  btn.disabled = true; m.textContent = L("Đang gửi...", "送信中…");
+  try { await send(data); m.textContent = L("Cảm ơn bạn! Lời chúc đã được gửi.", "ありがとうございます！メッセージを送信しました。"); f.reset(); WISHES.unshift(data); renderWishes(WISHES); fwIdx = 0; startFloat(); setTimeout(loadWishes, 1500); }
+  catch (err) { m.textContent = err.message === "noapi" ? L("Sổ lưu bút chưa được kết nối. Vui lòng thử lại sau.", "ゲストブックは現在ご利用いただけません。後ほどお試しください。") : L("Chưa gửi được, bạn kiểm tra mạng rồi thử lại nhé.", "送信できませんでした。通信環境をご確認のうえ、もう一度お試しください。"); }
   btn.disabled = false;
 });
 $("rsvp-form").addEventListener("submit", async e => {
   e.preventDefault(); const f = e.target, m = $("rsvp-msg"), btn = f.querySelector("button");
   const data = { type: "rsvp", name: f.name.value.trim(), phone: f.phone.value.trim(), side: f.side.value, count: f.count.value, attend: f.attend.value, note: f.note.value.trim() };
-  btn.disabled = true; m.textContent = "Đang gửi...";
-  try { await send(data); m.textContent = "Cảm ơn bạn đã xác nhận!"; f.reset(); setTimeout(() => $("rsvp-modal").hidden = true, 1500); }
-  catch (err) { m.textContent = err.message === "noapi" ? "Form xác nhận chưa được kết nối. Vui lòng thử lại sau." : "Chưa gửi được, bạn kiểm tra mạng rồi thử lại nhé."; }
+  btn.disabled = true; m.textContent = L("Đang gửi...", "送信中…");
+  try { await send(data); m.textContent = L("Cảm ơn bạn đã xác nhận!", "ご返信ありがとうございます！"); f.reset(); setTimeout(() => $("rsvp-modal").hidden = true, 1500); }
+  catch (err) { m.textContent = err.message === "noapi" ? L("Form xác nhận chưa được kết nối. Vui lòng thử lại sau.", "出欠フォームは現在ご利用いただけません。後ほどお試しください。") : L("Chưa gửi được, bạn kiểm tra mạng rồi thử lại nhé.", "送信できませんでした。通信環境をご確認のうえ、もう一度お試しください。"); }
   btn.disabled = false;
 });
 }

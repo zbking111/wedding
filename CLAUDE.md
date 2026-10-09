@@ -26,6 +26,19 @@ git push (sửa code) ──────┴─> GitHub `zbking111/wedding` (nhá
 - `.pages.yml` — schema form của Pages CMS. Thêm trường mới vào JSON thì thêm field ở đây; JS phải chịu được trường thiếu (dữ liệu cũ không có).
 - `media/images/` — ảnh và nhạc do CMS tải lên (đường dẫn công khai `/media/images/...`). `ngay-cuoi.mp3` = nhạc mặc định (đã nén 96 kbps).
 - `tao-link.html` — trang tạo link thiệp mời theo tên khách (nhập nhiều tên → mỗi tên một link + tin nhắn mẫu để copy).
+- `content/site.ja.json` — bản dịch tiếng Nhật của các chữ trong site.json (KHÔNG sửa qua CMS; nhờ Claude dịch lại khi site.json đổi nội dung).
+  Chỉ chứa trường chữ cần dịch; được ghép lên site.json (mảng ghép theo vị trí, thiếu/rỗng → giữ tiếng Việt).
+  Không đưa dữ liệu thật (số tài khoản, ngân hàng, địa chỉ, ngày giờ, ảnh) vào đây, để luôn lấy từ site.json.
+
+## Tiếng Nhật (`?lang=ja`, hoặc `lang=jp`)
+
+- Một file `index.html` cho cả hai ngôn ngữ. Không có `lang=ja` → trang y như cũ, không tải thêm gì.
+- Chữ cố định trong HTML: thuộc tính `data-ja` / `data-ja-ph` (placeholder) / `data-ja-aria` (aria-label) ngay cạnh bản tiếng Việt.
+  Chữ sinh trong JS: `L("tiếng Việt", "日本語")`. Thêm chữ mới trên giao diện thì thêm luôn bản tiếng Nhật.
+- Ngày kiểu 2026年12月27日（日）, ẩn âm lịch, tên khách tự thêm 様. Font Noto Sans/Serif JP chỉ tải khi lang=ja.
+- Giá trị gửi lên Sheet (nhà trai/nhà gái, có/không tham dự) vẫn là tiếng Việt (option có `value` tiếng Việt).
+- Thiệp chọn sự kiện bằng tên sự kiện tiếng Việt gốc (SVI), không dùng bản dịch.
+- tao-link.html có ô "Khách là người" (mặc định Người Việt; chọn Người Nhật) → thêm `&lang=ja` vào link + tin nhắn mẫu tiếng Nhật.
 
 ## Các trường chính trong site.json
 

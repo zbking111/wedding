@@ -68,9 +68,11 @@ textarea#names{min-height:130px}
       <label for="side"><span>Khách của <span class="req">*</span></span>
         <select id="side" required aria-describedby="side-err"><option value="">Chọn nhà trai hoặc nhà gái</option><option value="trai">Nhà trai</option><option value="gai">Nhà gái</option></select>
         <p class="err" id="side-err" hidden>Vui lòng chọn khách của nhà trai hay nhà gái.</p></label>
-      <label for="base">Địa chỉ trang cưới
-        <input id="base" inputmode="url"></label>
+      <label for="lang">Khách là người
+        <select id="lang"><option value="">Người Việt (mặc định)</option><option value="ja">Người Nhật – thiệp tiếng Nhật</option></select></label>
     </div>
+    <label for="base">Địa chỉ trang cưới
+      <input id="base" inputmode="url"></label>
     <p class="hint">Thiệp sẽ hiện ngày giờ, địa điểm tiệc của nhà trai hoặc nhà gái theo lựa chọn ở trên.</p>
   </section>
 
@@ -88,8 +90,11 @@ const store = { get(k){ try { return localStorage.getItem(k); } catch(e){ return
 $("base").value = store.get("base") || (location.origin + "/");
 $("names").value = store.get("names") || "";
 $("side").value = store.get("side") || "";
+$("lang").value = store.get("lang") === "ja" ? "ja" : "";
 // Tin nhắn lưu dạng mẫu có chỗ trống: {ten} tên khách, {link} link thiệp cưới, {doi} tên cặp đôi (đổi thứ tự theo nhà trai/nhà gái)
-const DEF_TPL = "Trân trọng kính mời {ten} đến dự lễ cưới của {doi}. Link thiệp cưới: {link}";
+const DEF_VI = "Trân trọng kính mời {ten} đến dự lễ cưới của {doi}. Link thiệp cưới: {link}";
+const DEF_JA = "{ten}様\n\nこのたび {doi} は結婚式を挙げることとなりました。\nご多用中とは存じますが、ぜひご出席いただけますと幸いです。\n\n招待状はこちら：{link}";
+const defTpl = () => $("lang").value === "ja" ? DEF_JA : DEF_VI;
 let custom = {}, S = null; // mẫu đã sửa riêng cho từng khách, theo tên
 try { custom = JSON.parse(store.get("tpls") || "{}") || {}; } catch(e){}
 const saveCustom = () => store.set("tpls", JSON.stringify(custom));
@@ -101,7 +106,7 @@ fetch("content/site.json?v=" + Date.now()).then(r => r.json()).then(d => {
 const getNames = () => [...new Set($("names").value.split("\n").map(s => s.trim()).filter(Boolean))];
 function linkFor(name){
   const u = new URL($("base").value.trim() || location.origin + "/", location.href);
-  u.search = ""; u.searchParams.set("to", name); u.searchParams.set("s", $("side").value);
+  u.search = ""; u.searchParams.set("to", name); u.searchParams.set("s", $("side").value); if ($("lang").value === "ja") u.searchParams.set("lang", "ja");
   return u.toString();
 }
 // Tách mẫu thành các đoạn [chỗ trống | null, nội dung đã điền]
@@ -139,7 +144,7 @@ function validate(){
 }
 
 function render(){
-  ["names","side","base"].forEach(k => store.set(k, $(k).value));
+  ["names","side","lang","base"].forEach(k => store.set(k, $(k).value));
   const names = validate() ? getNames() : [];
   const list = $("list"); list.textContent = "";
   names.forEach((n, i) => {
@@ -153,14 +158,15 @@ function render(){
     head.append(lb, reset);
     const ta = document.createElement("textarea"); ta.id = "msg-" + i; ta.className = "msg";
     let segs;
-    const fill = () => { segs = segsFor(custom[n] || DEF_TPL, n); ta.value = joinSegs(segs); reset.hidden = !custom[n]; };
+    const ck = ($("lang").value === "ja" ? "ja|" : "") + n; // tin đã sửa lưu riêng theo ngôn ngữ
+    const fill = () => { segs = segsFor(custom[ck] || defTpl(), n); ta.value = joinSegs(segs); reset.hidden = !custom[ck]; };
     fill();
     ta.addEventListener("input", () => {
       const t = tplFromEdit(segs, ta.value);
-      if (t === DEF_TPL) delete custom[n]; else custom[n] = t;
-      saveCustom(); segs = segsFor(t, n); reset.hidden = !custom[n];
+      if (t === defTpl()) delete custom[ck]; else custom[ck] = t;
+      saveCustom(); segs = segsFor(t, n); reset.hidden = !custom[ck];
     });
-    reset.onclick = () => { delete custom[n]; saveCustom(); fill(); };
+    reset.onclick = () => { delete custom[ck]; saveCustom(); fill(); };
     const acts = document.createElement("div"); acts.className = "acts";
     const mk = (label, cls, fn) => { const x = document.createElement("button"); x.type = "button"; x.className = "btn sm " + cls; x.textContent = label; x.onclick = fn; acts.append(x); };
     mk("Sao chép tin nhắn", "", () => copy(ta.value, "Đã sao chép tin nhắn cho " + n));
@@ -171,7 +177,7 @@ function render(){
   $("count").textContent = names.length + " link thiệp cưới"; $("empty").hidden = !!names.length;
 }
 
-["names","side","base"].forEach(k => $(k).addEventListener("input", render));
+["names","side","lang","base"].forEach(k => $(k).addEventListener("input", render));
 $("side").addEventListener("change", () => { touched.side = true; render(); });
 $("names").addEventListener("blur", () => { touched.names = true; if (getNames().length) touched.side = true; render(); });
 $("side").addEventListener("blur", () => { touched.side = true; render(); });

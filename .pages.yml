@@ -11,6 +11,11 @@ content:
     path: content/site.json
     format: json
     fields:
+      - name: inviteTool
+        label: "🔗 👉 TRANG TẠO LINK THIỆP MỜI CHO KHÁCH 👈"
+        type: string
+        readonly: true
+        description: "Sao chép link trong ô trên, dán vào trình duyệt để mở trang tạo link thiệp mời theo tên từng khách."
       - { name: groomName, label: Tên chú rể, type: string, required: true }
       - { name: brideName, label: Tên cô dâu, type: string, required: true }
       - { name: weddingDate, label: Ngày cưới (dùng cho đếm ngược và lịch), type: date, required: true }

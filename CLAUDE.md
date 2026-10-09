@@ -39,6 +39,7 @@ git push (sửa code) ──────┴─> GitHub `zbking111/wedding` (nhá
 
 - Cùng một trang cho cả hai ngôn ngữ (xử lý trong engine). Không có `lang=ja` → trang tiếng Việt, không tải thêm gì.
 - Chữ cố định của giao diện được dịch trong engine; nội dung riêng của cặp đôi được dịch trong `content/site.ja.json`.
+- Ẩn toàn bộ phần mừng cưới (mục Hộp Mừng Cưới, nút nhanh, mục trong menu +) vì khách Nhật không quét được QR ngân hàng VN.
 - Ngày kiểu 2026年12月27日（日）, ẩn âm lịch, tên khách tự thêm 様. Font Noto Sans/Serif JP chỉ tải khi lang=ja.
 - Giá trị gửi lên Sheet (nhà trai/nhà gái, có/không tham dự) vẫn là tiếng Việt (option có `value` tiếng Việt).
 - Thiệp chọn sự kiện bằng tên sự kiện tiếng Việt gốc (SVI), không dùng bản dịch.

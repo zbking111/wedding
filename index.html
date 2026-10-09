@@ -837,9 +837,12 @@ hide(document.querySelector(".actions").parentElement.id = "acts-wrap", !acts.le
   if (!pick.place && !pick.addr) $("iv-map").hidden = true;
   document.body.style.overflow = "hidden";
   const iv = $("invite"), backs = [$("invite-back"), $("fab-invite")];
+  // Mở thiệp luôn hiện trang cưới từ đầu (không để trình duyệt nhớ vị trí cuộn cũ)
+  if ("scrollRestoration" in history) history.scrollRestoration = "manual";
+  const toTop = () => window.scrollTo({ top: 0, left: 0, behavior: "instant" });
   $("iv-open").addEventListener("click", () => {
     const a = $("bgm"); if (a.src) a.play().catch(() => {});
-    iv.classList.add("leaving"); document.body.style.overflow = "";
+    toTop(); iv.classList.add("leaving"); document.body.style.overflow = "";
     setTimeout(() => { iv.classList.add("closed"); backs.forEach(b => b.hidden = false); }, 650);
   });
   // Quay lại thiệp mời

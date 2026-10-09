@@ -21,17 +21,18 @@ content:
       - { name: weddingDate, label: Ngày cưới (dùng cho đếm ngược và lịch), type: date, required: true }
       - { name: weddingTime, label: "Giờ tiệc chính (ví dụ 11:00)", type: string }
       - { name: lunarText, label: Ngày âm lịch, type: string }
-      - { name: heroPhoto, label: Ảnh bìa, type: image }
+      - { name: heroPhoto, label: "Ảnh bìa (ảnh dọc, tỉ lệ 3:4)", type: image, description: "Dùng ảnh GỐC từ studio hoặc điện thoại, KHÔNG lấy ảnh đã gửi qua Zalo/Messenger/Facebook (bị nén, lên web sẽ mờ). Cạnh dài 2000–3000 px, dưới 3 MB. Ảnh gốc nặng hơn 3 MB thì thu nhỏ cạnh dài về 2400 px rồi mới tải lên (Mac: mở bằng Preview → Công cụ → Điều chỉnh kích thước; hoặc web squoosh.app, chất lượng 85)." }
       - { name: music, label: Nhạc nền (file mp3), type: file }
       - { name: youtubeId, label: "ID video YouTube (phần sau v= trong link)", type: string }
       - { name: videoQuote, label: Câu trích mục Video, type: text }
       - { name: albumQuote, label: Câu trích mục Album, type: text }
       - { name: letter, label: "Lời ngỏ (cách đoạn bằng một dòng trống)", type: text }
-      - { name: letterPhoto, label: Ảnh cặp đôi dưới lời ngỏ (ảnh dọc đẹp nhất), type: image }
+      - { name: letterPhoto, label: Ảnh cặp đôi dưới lời ngỏ (ảnh dọc đẹp nhất), type: image, description: "Dùng ảnh GỐC từ studio hoặc điện thoại, KHÔNG lấy ảnh đã gửi qua Zalo/Messenger/Facebook (bị nén, lên web sẽ mờ). Cạnh dài 2000–3000 px, dưới 3 MB. Ảnh gốc nặng hơn 3 MB thì thu nhỏ cạnh dài về 2400 px rồi mới tải lên (Mac: mở bằng Preview → Công cụ → Điều chỉnh kích thước; hoặc web squoosh.app, chất lượng 85)." }
       - name: photos
         label: Album ảnh cưới (6 ảnh đầu hiện sẵn)
         type: image
         list: true
+        description: "Dùng ảnh GỐC từ studio hoặc điện thoại, KHÔNG lấy ảnh đã gửi qua Zalo/Messenger/Facebook (bị nén, lên web sẽ mờ). Cạnh dài 2000–3000 px, dưới 3 MB. Ảnh gốc nặng hơn 3 MB thì thu nhỏ cạnh dài về 2400 px rồi mới tải lên (Mac: mở bằng Preview → Công cụ → Điều chỉnh kích thước; hoặc web squoosh.app, chất lượng 85)."
       - name: events
         label: Sự kiện cưới
         type: object
@@ -58,7 +59,7 @@ content:
         label: Chú rể
         type: object
         fields:
-          - { name: photo, label: Ảnh chú rể, type: image }
+          - { name: photo, label: Ảnh chú rể, type: image, description: "Dùng ảnh gốc, không lấy ảnh qua Zalo/Messenger. Khoảng 1000–1500 px, dưới 3 MB." }
           - { name: bio, label: Giới thiệu, type: text }
           - { name: father, label: Tên bố chú rể, type: string }
           - { name: mother, label: Tên mẹ chú rể, type: string }
@@ -66,7 +67,7 @@ content:
         label: Cô dâu
         type: object
         fields:
-          - { name: photo, label: Ảnh cô dâu, type: image }
+          - { name: photo, label: Ảnh cô dâu, type: image, description: "Dùng ảnh gốc, không lấy ảnh qua Zalo/Messenger. Khoảng 1000–1500 px, dưới 3 MB." }
           - { name: bio, label: Giới thiệu, type: text }
           - { name: father, label: Tên bố cô dâu, type: string }
           - { name: mother, label: Tên mẹ cô dâu, type: string }
@@ -79,7 +80,7 @@ content:
           - { name: bank, label: Ngân hàng, type: string }
           - { name: no, label: Số tài khoản, type: string }
           - { name: name, label: Chủ tài khoản, type: string }
-          - { name: qr, label: Ảnh mã QR, type: image }
+          - { name: qr, label: Ảnh mã QR, type: image, description: "Ảnh chụp màn hình mã QR từ app ngân hàng, rõ nét, không cắt mất góc." }
       - { name: storyQuote, label: Câu trích mục Chuyện tình yêu, type: text }
       - name: stories
         label: Chuyện tình yêu (mỗi mốc là một thẻ)
@@ -89,14 +90,14 @@ content:
           - { name: date, label: "Mốc thời gian (ví dụ 06/2021)", type: string }
           - { name: title, label: Tiêu đề, type: string }
           - { name: text, label: Câu chuyện, type: text }
-          - { name: photo, label: Ảnh, type: image }
+          - { name: photo, label: Ảnh, type: image, description: "Dùng ảnh gốc, không lấy ảnh qua Zalo/Messenger. Khoảng 1000–1500 px, dưới 3 MB." }
       - name: bridesmaids
         label: Phù dâu
         type: object
         list: true
         fields:
           - { name: name, label: Tên, type: string }
-          - { name: photo, label: Ảnh, type: image }
+          - { name: photo, label: Ảnh, type: image, description: "Dùng ảnh gốc, không lấy ảnh qua Zalo/Messenger. Khoảng 1000–1500 px, dưới 3 MB." }
           - { name: intro, label: Giới thiệu ngắn, type: string }
       - name: groomsmen
         label: Phù rể
@@ -104,7 +105,7 @@ content:
         list: true
         fields:
           - { name: name, label: Tên, type: string }
-          - { name: photo, label: Ảnh, type: image }
+          - { name: photo, label: Ảnh, type: image, description: "Dùng ảnh gốc, không lấy ảnh qua Zalo/Messenger. Khoảng 1000–1500 px, dưới 3 MB." }
           - { name: intro, label: Giới thiệu ngắn, type: string }
       - name: wishSuggestions
         label: Lời chúc gợi ý (để trống sẽ dùng câu mặc định)

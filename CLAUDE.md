@@ -17,7 +17,7 @@ git push (sửa code) ──────┴─> GitHub `zbking111/wedding` (nhá
 - CMS: Pages CMS (https://app.pagescms.org), đăng nhập GitHub, cấu hình trong `.pages.yml`.
   Mời người sửa nội dung bằng email ở mục Collaborators (họ không cần tài khoản GitHub).
   Pages CMS tự commit "(via Pages CMS)" lên `main` → **luôn `git pull --rebase` trước khi push**.
-- Upload qua Pages CMS giới hạn khoảng 4 MB/file (file lớn hơn báo lỗi 4xx). File lớn (mp3, ảnh nặng) thì nén rồi commit thẳng bằng git vào `media/images/`.
+- Upload qua Pages CMS giới hạn thực tế ~3,3 MB/file (CMS gửi file dạng base64 qua server của họ, giới hạn ~4,5 MB/request; file lớn hơn báo lỗi 4xx). File lớn (mp3, ảnh nặng) thì nén rồi commit thẳng bằng git vào `media/images/`.
 
 ## Cấu trúc file
 

@@ -20,28 +20,36 @@
       "date": "2026-12-26",
       "time": "16:00",
       "place": "Tư gia nhà gái",
-      "addr": "[Địa chỉ nhà gái]"
+      "addr": "Thôn Nong Thâm, Cai Kinh, Lang Son,Viet Nam",
+      "map": "https://maps.app.goo.gl/ci6V4yfQKwjfMoceA",
+      "invite": false
     },
     {
       "title": "Lễ vu quy",
       "date": "2026-12-27",
       "time": "08:00",
       "place": "Tư gia nhà gái",
-      "addr": "[Địa chỉ nhà gái]"
+      "addr": "Thôn Nong Thâm, Cai Kinh, Lang Son,Viet Nam",
+      "map": "https://maps.app.goo.gl/ci6V4yfQKwjfMoceA",
+      "invite": false
     },
     {
       "title": "Lễ thành hôn",
       "date": "2026-12-27",
       "time": "10:00",
       "place": "Tư gia nhà trai",
-      "addr": "[Địa chỉ nhà trai]"
+      "addr": "63QR+FC7, Đông Long, Vân Hà, Bắc Ninh,Viet Nam",
+      "map": "https://maps.app.goo.gl/kgrrh6g99BuHisQH9",
+      "invite": false
     },
     {
       "title": "Tiệc cưới nhà trai",
       "date": "2026-12-27",
       "time": "11:00",
       "place": "[Nhà hàng / tư gia nhà trai]",
-      "addr": "[Địa chỉ]"
+      "addr": "63QR+FC7, Đông Long, Vân Hà, Bắc Ninh, Viet Nam",
+      "map": "https://maps.app.goo.gl/kgrrh6g99BuHisQH9",
+      "invite": false
     }
   ],
   "groom": {
@@ -76,7 +84,8 @@
     "gifts": true,
     "wishes": true,
     "rsvp": true,
-    "hearts": true
+    "hearts": true,
+    "invite": true
   },
   "apiUrl": "https://script.google.com/macros/s/AKfycbxHma0pKCGxTrj0JHBUwQQvzD5iHrkTX3RNwNv6r7H85pBT-fwqIFFLNX0C3ACIr5dQbg/exec"
 }

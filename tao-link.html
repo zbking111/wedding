@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Tạo link thiệp mời</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Be+Vietnam+Pro:wght@300;400;500;600&display=swap">
+<style>
+:root{--bg:#f8f1f1;--card:#fff;--ink:#2b2224;--muted:#7b6b6d;--wine:#8c2f39;--wine-deep:#6b1f28;--line:#ead9da;
+  --f-script:"Dancing Script","Brush Script MT",cursive;--f-body:"Be Vietnam Pro",system-ui,-apple-system,"Segoe UI",sans-serif;color-scheme:light}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 15px/1.6 var(--f-body);padding:24px 16px 48px}
+main{max-width:720px;margin:0 auto;display:grid;gap:18px}
+h1{font-family:var(--f-script);color:var(--wine);font-size:40px;margin:0;text-align:center;line-height:1.2}
+.sub{text-align:center;color:var(--muted);margin:-8px 0 0}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;display:grid;gap:12px}
+label{font-size:13px;font-weight:500;display:grid;gap:4px}
+textarea,input,select{width:100%;padding:10px 12px;border:1px solid var(--line);border-radius:10px;font:inherit;color:var(--ink);background:#fff}
+textarea:focus,input:focus,select:focus{outline:none;border-color:var(--wine)}
+textarea#names{min-height:130px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:520px){.row{grid-template-columns:1fr}}
+.hint{font-size:12.5px;color:var(--muted);margin:0}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 16px;border-radius:999px;border:1px solid var(--wine);background:var(--wine);color:#fff;font:500 14px var(--f-body);cursor:pointer;text-decoration:none}
+.btn:hover{background:var(--wine-deep)}
+.btn.ghost{background:#fff;color:var(--wine)}
+.btn.sm{padding:6px 12px;font-size:12.5px}
+.bar{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+.list{display:grid;gap:10px}
+.item{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;display:grid;gap:6px;min-width:0}
+.item b{color:var(--wine);font-weight:600}
+.item code{font-size:12.5px;color:var(--muted);word-break:break-all;background:var(--bg);padding:6px 8px;border-radius:8px}
+.item .acts{display:flex;flex-wrap:wrap;gap:6px}
+.toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:#fff;padding:8px 14px;border-radius:999px;font-size:13px}
+.empty{text-align:center;color:var(--muted);font-size:14px;padding:16px;border:1px dashed var(--line);border-radius:14px}
+:focus-visible{outline:2px solid var(--wine);outline-offset:2px}
+</style>
+</head>
+<body>
+<main>
+  <h1 id="title">Tạo link thiệp mời</h1>
+  <p class="sub">Mỗi khách một link riêng, mở ra là thấy tên mình trên thiệp.</p>
+
+  <section class="card">
+    <label for="names">Tên khách mời (mỗi dòng một người)
+      <textarea id="names" placeholder="Anh Hùng và chị Lan&#10;Bác Tư&#10;Bạn Minh"></textarea></label>
+    <div class="row">
+      <label for="side">Khách của
+        <select id="side"><option value="trai">Nhà trai</option><option value="gai">Nhà gái</option><option value="">Không ghi</option></select></label>
+      <label for="base">Địa chỉ trang cưới
+        <input id="base" inputmode="url"></label>
+    </div>
+    <label for="tpl">Tin nhắn mẫu ({ten} = tên khách, {link} = link thiệp)
+      <textarea id="tpl" style="min-height:80px"></textarea></label>
+    <p class="hint">Thiệp sẽ hiện ngày giờ, địa điểm tiệc của nhà trai hoặc nhà gái theo lựa chọn ở trên.</p>
+  </section>
+
+  <div class="bar">
+    <strong id="count">0 link</strong>
+    <button class="btn ghost" id="copy-all" type="button">Sao chép tất cả tin nhắn</button>
+  </div>
+  <div class="list" id="list"></div>
+  <p class="empty" id="empty">Nhập tên khách ở trên, link sẽ hiện ra ngay tại đây.</p>
+</main>
+<div class="toast" id="toast" hidden role="status"></div>
+
+<script>
+const $ = id => document.getElementById(id);
+const store = { get(k){ try { return localStorage.getItem(k); } catch(e){ return null; } }, set(k,v){ try { localStorage.setItem(k,v); } catch(e){} } };
+$("base").value = store.get("base") || (location.origin + "/");
+$("names").value = store.get("names") || "";
+$("side").value = store.get("side") ?? "trai";
+let couple = "cô dâu chú rể";
+const DEF_TPL = "Trân trọng kính mời {ten} đến dự lễ cưới của chúng mình. Thiệp mời online: {link}";
+$("tpl").value = store.get("tpl") || DEF_TPL;
+fetch("content/site.json?v=" + Date.now()).then(r => r.json()).then(S => {
+  couple = S.groomName + " & " + S.brideName; $("title").textContent = "Thiệp mời " + couple;
+  if ($("tpl").value === DEF_TPL) $("tpl").value = "Trân trọng kính mời {ten} đến dự lễ cưới của " + couple + ". Thiệp mời online: {link}";
+  render();
+}).catch(() => {});
+
+function linkFor(name){
+  const u = new URL($("base").value.trim() || location.origin + "/", location.href);
+  u.search = ""; u.searchParams.set("to", name); if ($("side").value) u.searchParams.set("s", $("side").value);
+  return u.toString();
+}
+const msgFor = (name, link) => $("tpl").value.replaceAll("{ten}", name).replaceAll("{link}", link);
+function toast(t){ $("toast").textContent = t; $("toast").hidden = false; clearTimeout(toast.t); toast.t = setTimeout(() => $("toast").hidden = true, 1800); }
+async function copy(text, ok){ try { await navigator.clipboard.writeText(text); toast(ok); } catch(e){ prompt("Sao chép thủ công:", text); } }
+
+function render(){
+  ["names","side","base","tpl"].forEach(k => store.set(k, $(k).value));
+  const names = [...new Set($("names").value.split("\n").map(s => s.trim()).filter(Boolean))];
+  const list = $("list"); list.textContent = "";
+  names.forEach(n => {
+    const link = linkFor(n), it = document.createElement("div"); it.className = "item";
+    const b = document.createElement("b"); b.textContent = n;
+    const c = document.createElement("code"); c.textContent = link;
+    const acts = document.createElement("div"); acts.className = "acts";
+    const mk = (label, cls, fn) => { const x = document.createElement("button"); x.type = "button"; x.className = "btn sm " + cls; x.textContent = label; x.onclick = fn; acts.append(x); };
+    mk("Sao chép tin nhắn", "", () => copy(msgFor(n, link), "Đã sao chép tin nhắn cho " + n));
+    mk("Sao chép link", "ghost", () => copy(link, "Đã sao chép link"));
+    const o = document.createElement("a"); o.className = "btn sm ghost"; o.href = link; o.target = "_blank"; o.rel = "noopener"; o.textContent = "Xem thử"; acts.append(o);
+    it.append(b, c, acts); list.append(it);
+  });
+  $("count").textContent = names.length + " link"; $("empty").hidden = !!names.length; $("copy-all").hidden = !names.length;
+}
+["names","side","base","tpl"].forEach(k => $(k).addEventListener("input", render));
+$("copy-all").addEventListener("click", () => {
+  const names = [...new Set($("names").value.split("\n").map(s => s.trim()).filter(Boolean))];
+  copy(names.map(n => msgFor(n, linkFor(n))).join("\n\n"), "Đã sao chép " + names.length + " tin nhắn");
+});
+render();
+</script>
+</body>
+</html>

@@ -38,6 +38,13 @@ content:
           - { name: place, label: Địa điểm, type: string }
           - { name: addr, label: Địa chỉ, type: string }
           - { name: map, label: "Link Google Maps (không bắt buộc)", type: string }
+          - name: side
+            label: Sự kiện của nhà nào (dùng cho thiệp mời theo tên)
+            type: select
+            options:
+              values: [trai, gai]
+          - { name: invite, label: Hiện sự kiện này trên thiệp mời, type: boolean }
+          - { name: lunar, label: "Ngày âm lịch của sự kiện (ví dụ Tức ngày 08 tháng 09 năm Bính Ngọ)", type: string }
           - name: colors
             label: "Dress code – mã màu, ví dụ #c9a9a6 (không bắt buộc)"
             type: string
@@ -114,4 +121,5 @@ content:
           - { name: wishes, label: Sổ lưu bút, type: boolean, default: true }
           - { name: rsvp, label: Xác nhận tham dự, type: boolean, default: true }
           - { name: hearts, label: Hiệu ứng thả tim, type: boolean, default: true }
+          - { name: invite, label: Màn hình thiệp mời khi mở trang, type: boolean, default: true }
       - { name: apiUrl, label: Link Apps Script (không sửa), type: string }

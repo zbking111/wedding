@@ -22,10 +22,7 @@
       "place": "Tư gia nhà gái",
       "addr": "Nong Thâm, Cai Kinh, Lang Son",
       "map": "https://maps.app.goo.gl/ci6V4yfQKwjfMoceA",
-      "invite": false,
-      "colors": [
-        "efb3e7"
-      ]
+      "invite": false
     },
     {
       "title": "Tiệc cưới nhà gái",
@@ -34,10 +31,7 @@
       "place": "Tư gia nhà gái",
       "addr": "Nong Thâm, Cai Kinh, Lang Son",
       "map": "https://maps.app.goo.gl/ci6V4yfQKwjfMoceA",
-      "invite": false,
-      "colors": [
-        "efb3e7"
-      ]
+      "invite": false
     },
     {
       "title": "Lễ thành hôn",
@@ -46,10 +40,7 @@
       "place": "Tư gia nhà trai",
       "addr": "Dong Long,Van Ha,Bac Ninh",
       "map": "https://maps.app.goo.gl/kgrrh6g99BuHisQH9",
-      "invite": false,
-      "colors": [
-        "efb3e7"
-      ]
+      "invite": false
     },
     {
       "title": "Tiệc cưới nhà trai",
@@ -58,10 +49,7 @@
       "place": "[Nhà hàng / tư gia nhà trai]",
       "addr": "Dong Long,Van Ha,Bac Ninh",
       "map": "https://maps.app.goo.gl/kgrrh6g99BuHisQH9",
-      "invite": false,
-      "colors": [
-        "efb3e7"
-      ]
+      "invite": false
     }
   ],
   "groom": {
